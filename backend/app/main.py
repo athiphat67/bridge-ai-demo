@@ -1,12 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
-import os
+
+from .routers import analyze, samples
 
 app = FastAPI(title="Bridge AI Demo API")
 
-# CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -15,13 +13,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(analyze.router, prefix="/api")
+app.include_router(samples.router, prefix="/api")
+
+
 @app.get("/api/health")
 async def health():
     return {"status": "ok"}
 
+
 @app.get("/")
 async def root():
     return {"message": "Bridge AI Demo API"}
+
 
 if __name__ == "__main__":
     import uvicorn

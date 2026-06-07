@@ -2,20 +2,21 @@
 
 A Medical AI demo application for bone X-ray analysis with risk scoring, developed for the Medical AI Awards submission.
 
+> **Note:** นี่คือ **mock demo facade** สำหรับอัดวิดีโอ/แคปหน้าจอไปแปะ Proposal (ส่ง 26 มิ.ย.)
+> ไม่มีการเทรนโมเดลจริง — ผลลัพธ์ขับด้วย label ที่ทีมเตรียมให้ ดู `ARCHITECTURE.md` + `DATA_CONTRACT.md`
+
 ## Features
 
-- Upload and analyze bone X-ray images
-- Clinical parameter input (age, gender, weight, height, bone location)
-- AI-powered risk score calculation with heatmap visualization
-- PDF report generation
-- Analysis history management
+- Upload / เลือกเคสตัวอย่าง X-ray + กรอก clinical input
+- โชว์ Bounding Box / Heatmap ตรง Growth Plate + Key Metric `Physeal Plate Damage = XX%`
+- Risk badge (Low / Medium / High)
+- พาร์ท Growth Prediction: กราฟแนวโน้ม 1 / 3 / 5 ปี
 - Thai language UI
 
 ## Tech Stack
 
-- **Frontend**: React + TypeScript + Tailwind CSS
-- **Backend**: FastAPI + Python
-- **Database**: SQLite
+- **Frontend**: React + Vite + Tailwind CSS
+- **Backend**: FastAPI + Python (Pillow + NumPy สำหรับวาดภาพ)
 - **Deployment**: Docker Compose
 
 ## Project Structure
@@ -25,25 +26,36 @@ bridge-ai-demo/
 ├── backend/
 │   ├── app/
 │   │   ├── main.py
-│   │   ├── models.py
-│   │   ├── routes.py
-│   │   └── services/
+│   │   ├── config.py
+│   │   ├── schemas.py
+│   │   ├── routers/      # analyze.py, samples.py
+│   │   ├── services/     # metadata, scoring, growth, visualize
+│   │   └── data/         # samples/ + metadata.json (ดู DATA_CONTRACT.md)
 │   ├── requirements.txt
-│   ├── Dockerfile
-│   └── data/
-│       └── sample_images/
+│   └── Dockerfile
 ├── frontend/
 │   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── utils/
-│   │   ├── App.tsx
-│   │   └── index.tsx
+│   │   ├── api/ components/ sections/ pages/
+│   │   ├── App.jsx
+│   │   └── main.jsx
 │   ├── package.json
 │   └── Dockerfile
+├── ARCHITECTURE.md       # การออกแบบ v2
+├── DATA_CONTRACT.md      # รูปแบบไฟล์ที่ Namthip ส่งให้
 ├── docker-compose.yml
 └── README.md
 ```
+
+## Current Status
+
+| ส่วน | สถานะ |
+|------|-------|
+| Backend (FastAPI mock: scoring / growth / visualize) | ✅ ทำงานครบ |
+| Frontend (Dashboard + 3 ส่วนผลลัพธ์ + กราฟ) | ✅ ทำงานครบ |
+| ภาพ X-ray จริงจากทีม | ⏳ รอ — ระหว่างนี้ backend สร้าง placeholder ให้อัตโนมัติ |
+| Polish UI + อัดวิดีโอ | 🔜 |
+
+demo รันได้เต็มรูปแบบแล้วด้วย placeholder — ดูแผนเต็มใน `ARCHITECTURE.md` §6
 
 ## Quick Start (Docker)
 
@@ -51,8 +63,8 @@ bridge-ai-demo/
 docker-compose up
 ```
 
-- Backend API: http://localhost:8000
-- Frontend: http://localhost:3000
+- Backend API: http://localhost:8000  (docs: `/docs`)
+- Frontend: http://localhost:5173
 
 ## Development (Native)
 
@@ -71,16 +83,23 @@ python3 -m uvicorn app.main:app --reload
 ```bash
 cd frontend
 npm install
-npm start
+npm run dev      # Vite → http://localhost:5173
 ```
 
 ## API Endpoints
 
-- `GET /api/health` - Health check
-- `POST /api/analyze` - Analyze X-ray image
-- `GET /api/results` - Get analysis results history
-- `GET /api/results/{id}` - Get specific result
-- `POST /api/results/{id}/export` - Export result as PDF
+- `GET  /api/health`  - Health check
+- `GET  /api/samples` - รายการเคสตัวอย่าง (Low / Medium / High)
+- `POST /api/analyze` - วิเคราะห์ X-ray + clinical input → คืน overlay + damage% + risk + growth prediction
+  - รับได้ 2 แบบ: form `sample_id` (เลือกเคสตัวอย่าง) **หรือ** `image` + ฟิลด์ clinical (อัปโหลดเอง)
+
+## การวาง data จริงจากทีม
+
+เมื่อได้ภาพ X-ray + label จาก Namthip (ตามรูปแบบใน `DATA_CONTRACT.md`):
+
+1. วางไฟล์ภาพใน `backend/app/data/samples/` (ชื่อไฟล์ตรงกับ `metadata.json`)
+2. อัปเดต `backend/app/data/metadata.json` ตาม contract (พิกัด `bar_box` เป็นสัดส่วน 0–1)
+3. รีสตาร์ท backend — ใช้ได้ทันที ไม่ต้องแก้โค้ด
 
 ## Architecture Decisions
 

@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "case_low",
+      "filename": "case_low_age12_lateral.png",
+      "display_name": "เด็กหญิง 12 ปี – Lateral Bar เล็ก (เสี่ยงต่ำ)",
+      "clinical": {
+        "age_years": 12,
+        "bone_age_years": 12.5,
+        "gender": "female",
+        "weight_kg": 38,
+        "height_cm": 148,
+        "location": "lateral",
+        "medical_history": []
+      },
+      "label": {
+        "bar_area_percent": 18,
+        "salter_harris": "II",
+        "bar_box": { "x": 0.55, "y": 0.46, "w": 0.12, "h": 0.13 }
+      }
+    },
+    {
+      "id": "case_medium",
+      "filename": "case_medium_age9_medial.png",
+      "display_name": "เด็กชาย 9 ขวบ – Medial Bar ปานกลาง (เสี่ยงกลาง)",
+      "clinical": {
+        "age_years": 9,
+        "bone_age_years": 8.5,
+        "gender": "male",
+        "weight_kg": 30,
+        "height_cm": 132,
+        "location": "medial",
+        "medical_history": []
+      },
+      "label": {
+        "bar_area_percent": 38,
+        "salter_harris": "III",
+        "bar_box": { "x": 0.40, "y": 0.47, "w": 0.14, "h": 0.15 }
+      }
+    },
+    {
+      "id": "case_high",
+      "filename": "case_high_age6_medial.png",
+      "display_name": "เด็กชาย 6 ขวบ – Medial Bar รุนแรง (เสี่ยงสูง)",
+      "clinical": {
+        "age_years": 6,
+        "bone_age_years": 5.5,
+        "gender": "male",
+        "weight_kg": 22,
+        "height_cm": 115,
+        "location": "medial",
+        "medical_history": ["corticosteroid"]
+      },
+      "label": {
+        "bar_area_percent": 62,
+        "salter_harris": "IV",
+        "bar_box": { "x": 0.43, "y": 0.45, "w": 0.16, "h": 0.18 }
+      }
+    }
+  ]
+}

@@ -23,6 +23,8 @@ wheels/
 .installed.cfg
 *.egg
 
+.venv/
+
 # Node
 node_modules/
 npm-debug.log
