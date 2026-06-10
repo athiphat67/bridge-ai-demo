@@ -19,6 +19,20 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
+  // ── Theme toggle ──
+  const [dark, setDark] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('bridge-ai-theme')
+      return saved === 'dark'
+    }
+    return false
+  })
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', dark)
+    localStorage.setItem('bridge-ai-theme', dark ? 'dark' : 'light')
+  }, [dark])
+
   useEffect(() => { getSamples().then(setSamples).catch(() => {}) }, [])
 
   const usingSample = !!selectedId
@@ -43,55 +57,98 @@ export default function Dashboard() {
   const canAnalyze = usingSample || imageFile
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800">
-      <header className="border-b bg-white px-6 py-4">
-        <h1 className="text-xl font-semibold">
-          Bridge AI — วิเคราะห์การเจริญเติบโตของกระดูกเข่าเด็ก
-        </h1>
-        <p className="text-sm text-slate-500">ระบบสนับสนุนการตัดสินใจทางคลินิก (เดโม่)</p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100 text-slate-900 transition-colors duration-300 dark:bg-[#0f172a] dark:from-[#0f172a] dark:via-[#0f172a] dark:to-[#0f172a] dark:text-slate-200">
+      {/* ── Header ── */}
+      <header className="glass sticky top-0 z-50 px-6 py-4">
+        <div className="mx-auto flex max-w-7xl items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-med-blue to-med-cyan shadow-glow-blue">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <div className="flex-1">
+            <h1 className="text-lg font-bold text-gradient">
+              Bridge AI — วิเคราะห์การเจริญเติบโตของกระดูกเข่าเด็ก
+            </h1>
+            <p className="text-xs text-slate-900 dark:text-slate-400">ระบบสนับสนุนการตัดสินใจทางคลินิก (เดโม่)</p>
+          </div>
+          {/* Theme toggle */}
+          <button
+            onClick={() => setDark(!dark)}
+            className="theme-toggle"
+            aria-label="สลับธีมสว่าง/มืด"
+          />
+        </div>
       </header>
 
-      <main className="grid grid-cols-1 gap-6 p-6 lg:grid-cols-[380px_1fr]">
+      {/* ── Main ── */}
+      <main className="mx-auto grid max-w-7xl grid-cols-1 gap-6 p-6 lg:grid-cols-[420px_1fr]">
         {/* ซ้าย: input */}
-        <section className="space-y-5 rounded-xl border bg-white p-5">
+        <section className="glass space-y-5 rounded-2xl p-5">
+          {/* Section header */}
+          <div className="flex items-center gap-2">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-med-blue/10 text-sm dark:bg-med-blue/20">⚙️</span>
+            <h2 className="font-semibold text-slate-900 dark:text-slate-200">การตั้งค่าการวิเคราะห์</h2>
+          </div>
+
+          {/* Sample picker */}
           <div>
-            <h2 className="mb-2 text-sm font-semibold text-slate-700">1. เลือกเคสตัวอย่าง</h2>
+            <p className="mb-2 text-xs font-medium uppercase tracking-wider text-slate-900">1. เลือกเคสตัวอย่าง</p>
             <SamplePicker samples={samples} selectedId={selectedId} onSelect={pickSample} />
           </div>
 
-          <div className="flex items-center gap-3 text-xs text-slate-400">
-            <span className="h-px flex-1 bg-slate-200" />หรืออัปโหลดเอง<span className="h-px flex-1 bg-slate-200" />
+          {/* Divider */}
+          <div className="flex items-center gap-3 text-xs text-slate-900">
+            <span className="h-px flex-1 bg-slate-200 dark:bg-slate-600" />หรืออัปโหลดเอง<span className="h-px flex-1 bg-slate-200 dark:bg-slate-600" />
           </div>
 
+          {/* Upload + Clinical form */}
           <div>
-            <h2 className="mb-2 text-sm font-semibold text-slate-700">2. อัปโหลด X-ray + ข้อมูลคลินิก</h2>
-            <input type="file" accept="image/*" onChange={pickFile}
-                   className="mb-3 block w-full text-sm" />
+            <p className="mb-2 text-xs font-medium uppercase tracking-wider text-slate-900">2. อัปโหลด X-ray + ข้อมูลคลินิก</p>
+            <label className="group mb-3 flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-slate-200 p-3 transition hover:border-med-cyan hover:bg-cyan-50/50 dark:border-slate-600 dark:hover:border-med-cyan dark:hover:bg-slate-700/50">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-cyan-50 text-lg transition group-hover:bg-cyan-100 dark:bg-med-cyan/10 dark:group-hover:bg-med-cyan/20">📁</span>
+              <div>
+                <p className="text-sm font-medium text-slate-900 dark:text-slate-300">{imageFile ? imageFile.name : 'เลือกไฟล์ภาพ X-ray'}</p>
+                <p className="text-xs text-slate-900">PNG, JPG (แนะนำ 800–1200px)</p>
+              </div>
+              <input type="file" accept="image/*" onChange={pickFile} className="hidden" />
+            </label>
             <ClinicalForm value={clinical} onChange={setClinical} disabled={usingSample} />
           </div>
 
+          {/* Analyze button */}
           <button
             onClick={handleAnalyze}
             disabled={!canAnalyze || loading}
-            className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:bg-slate-300"
+            className="btn-analyze w-full rounded-xl py-3.5 text-sm"
           >
-            {loading ? 'กำลังประมวลผล…' : 'วิเคราะห์'}
+            {loading ? (
+              <span className="flex items-center justify-center gap-2">
+                <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                กำลังประมวลผล…
+              </span>
+            ) : (
+              <span className="flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                วิเคราะห์ภาพ X-ray
+              </span>
+            )}
           </button>
-          {error && <p className="text-sm text-red-600">{error}</p>}
+          {error && <p className="rounded-lg bg-red-50 p-2 text-center text-sm text-red-600 dark:bg-red-900/40 dark:text-red-400">{error}</p>}
         </section>
 
         {/* ขวา: ผลลัพธ์ */}
         <section className="space-y-6">
           {!result ? (
-            <div className="flex h-64 items-center justify-center rounded-xl border border-dashed bg-white text-slate-400">
-              เลือกเคสตัวอย่างหรืออัปโหลดภาพ แล้วกด “วิเคราะห์”
+            <div className="glass flex h-80 flex-col items-center justify-center rounded-2xl">
+              <div className="mb-4 text-5xl opacity-30">🔬</div>
+              <p className="text-lg font-medium text-slate-900">รอการวิเคราะห์</p>
+              <p className="mt-1 text-sm text-slate-900">เลือกเคสตัวอย่างหรืออัปโหลดภาพ แล้วกด "วิเคราะห์"</p>
             </div>
           ) : (
             <>
-              <div className="rounded-xl border bg-white p-5">
+              <div className="glass animate-fade-in rounded-2xl p-6">
                 <AnalysisSection result={result} />
               </div>
-              <div className="rounded-xl border bg-white p-5">
+              <div className="glass animate-slide-up rounded-2xl p-6">
                 <GrowthPredictionSection prediction={result.growth_prediction} />
               </div>
             </>
