@@ -36,14 +36,18 @@ def _placeholder(w: int = 700, h: int = 900) -> Image.Image:
     return img
 
 
-def _apply_heatmap(img: Image.Image, box: BarBox) -> Image.Image:
+def _apply_heatmap(img: Image.Image, box: BarBox,
+                   damage_percent: float) -> Image.Image:
     w, h = img.size
     cx, cy = (box.x + box.w / 2) * w, (box.y + box.h / 2) * h
     sigma = max(box.w * w, box.h * h) * 0.6
 
+    # ความเข้มแปรตามระดับ damage — เคสปกติ (0%) ไม่มีปื้นแดง, เคสหนักแดงเข้ม
+    intensity = HEATMAP_ALPHA * (max(0.0, min(100.0, damage_percent)) / 100) ** 0.5
+
     yy, xx = np.mgrid[0:h, 0:w]
     blob = np.exp(-(((xx - cx) ** 2 + (yy - cy) ** 2) / (2 * sigma ** 2)))
-    alpha = (blob * HEATMAP_ALPHA)[..., None]              # HxWx1
+    alpha = (blob * intensity)[..., None]                  # HxWx1
 
     base = np.asarray(img, dtype=np.float32)
     color = np.array(HEATMAP_COLOR, dtype=np.float32)
@@ -55,7 +59,7 @@ def render(filename: str | None, box: BarBox | None,
            damage_percent: float) -> str:
     box = box or _DEFAULT_BOX
     img = _load_or_placeholder(filename)
-    img = _apply_heatmap(img, box)
+    img = _apply_heatmap(img, box, damage_percent)
 
     w, h = img.size
     d = ImageDraw.Draw(img)

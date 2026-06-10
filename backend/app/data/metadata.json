@@ -2,60 +2,101 @@
   "version": 1,
   "cases": [
     {
-      "id": "case_low",
-      "filename": "case_low_age12_lateral.png",
-      "display_name": "เด็กหญิง 12 ปี – Lateral Bar เล็ก (เสี่ยงต่ำ)",
+      "id": "case_normal",
+      "filename": "case_normal_age11.png",
+      "display_name": "เด็กหญิง 11 ปี – Growth Plate ปกติ (ไม่พบ bar)",
       "clinical": {
-        "age_years": 12,
-        "bone_age_years": 12.5,
+        "age_years": 11,
+        "bone_age_years": 11,
         "gender": "female",
-        "weight_kg": 38,
-        "height_cm": 148,
+        "weight_kg": 36,
+        "height_cm": 145,
         "location": "lateral",
         "medical_history": []
       },
       "label": {
-        "bar_area_percent": 18,
-        "salter_harris": "II",
-        "bar_box": { "x": 0.55, "y": 0.46, "w": 0.12, "h": 0.13 }
+        "bar_area_percent": 0,
+        "salter_harris": "Normal",
+        "bar_box": {
+          "x": 0.3242,
+          "y": 0.3867,
+          "w": 0.3398,
+          "h": 0.1562
+        }
+      }
+    },
+    {
+      "id": "case_low",
+      "filename": "case_low_sh1_age14_lateral.png",
+      "display_name": "เด็กชาย 14 ปี – SH Type I Lateral (เสี่ยงต่ำ)",
+      "clinical": {
+        "age_years": 14,
+        "bone_age_years": 14.5,
+        "gender": "male",
+        "weight_kg": 52,
+        "height_cm": 165,
+        "location": "lateral",
+        "medical_history": []
+      },
+      "label": {
+        "bar_area_percent": 14,
+        "salter_harris": "I",
+        "bar_box": {
+          "x": 0.3867,
+          "y": 0.3594,
+          "w": 0.2383,
+          "h": 0.1523
+        }
       }
     },
     {
       "id": "case_medium",
-      "filename": "case_medium_age9_medial.png",
-      "display_name": "เด็กชาย 9 ขวบ – Medial Bar ปานกลาง (เสี่ยงกลาง)",
+      "filename": "case_medium_sh3_age11_lateral.png",
+      "display_name": "เด็กหญิง 11 ปี – SH Type III Lateral Tibia (เสี่ยงกลาง)",
       "clinical": {
-        "age_years": 9,
-        "bone_age_years": 8.5,
-        "gender": "male",
-        "weight_kg": 30,
-        "height_cm": 132,
-        "location": "medial",
+        "age_years": 11,
+        "bone_age_years": 10.5,
+        "gender": "female",
+        "weight_kg": 35,
+        "height_cm": 144,
+        "location": "lateral",
         "medical_history": []
       },
       "label": {
         "bar_area_percent": 38,
         "salter_harris": "III",
-        "bar_box": { "x": 0.40, "y": 0.47, "w": 0.14, "h": 0.15 }
+        "bar_box": {
+          "x": 0.4922,
+          "y": 0.5664,
+          "w": 0.1875,
+          "h": 0.2148
+        }
       }
     },
     {
       "id": "case_high",
-      "filename": "case_high_age6_medial.png",
-      "display_name": "เด็กชาย 6 ขวบ – Medial Bar รุนแรง (เสี่ยงสูง)",
+      "filename": "case_high_sh4_age13_medial.png",
+      "display_name": "เด็กชาย 13 ปี – SH Type IV Medial Tibia (เสี่ยงสูง)",
       "clinical": {
-        "age_years": 6,
-        "bone_age_years": 5.5,
+        "age_years": 13,
+        "bone_age_years": 12.5,
         "gender": "male",
-        "weight_kg": 22,
-        "height_cm": 115,
+        "weight_kg": 45,
+        "height_cm": 158,
         "location": "medial",
-        "medical_history": ["corticosteroid"]
+        "medical_history": [
+          "corticosteroid"
+        ]
       },
       "label": {
         "bar_area_percent": 62,
         "salter_harris": "IV",
-        "bar_box": { "x": 0.43, "y": 0.45, "w": 0.16, "h": 0.18 }
+        "bar_box": {
+          "x": 0.3047,
+          "y": 0.3828,
+          "w": 0.4102,
+          "h": 0.2617
+        }
       }
     }
   ]
