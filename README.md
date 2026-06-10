@@ -83,15 +83,6 @@ npm run dev      # Vite → http://localhost:5173
 - `POST /api/analyze` - วิเคราะห์ X-ray + clinical input → คืน overlay + damage% + risk + growth prediction
   - รับได้ 2 แบบ: form `sample_id` (เลือกเคสตัวอย่าง) **หรือ** `image` + ฟิลด์ clinical (อัปโหลดเอง)
 
-## การอัปเดต data จากทีม
-
-เมื่อได้ภาพ X-ray + label ชุดใหม่จาก Namthip:
-
-1. วางไฟล์ลง `data/processed/` ตามโครงสร้างที่อธิบายใน [`data/README.md`](data/README.md)
-2. รัน `backend/.venv/bin/python scripts/build_demo_data.py` — สร้าง `backend/app/data/metadata.json`
-   + `backend/app/data/samples/` ใหม่ให้อัตโนมัติ (ดู [`scripts/README.md`](scripts/README.md))
-3. รีสตาร์ท backend — ใช้ได้ทันที ไม่ต้องแก้โค้ด
-
 ## Architecture Decisions
 
 See [`ARCHITECTURE.md`](ARCHITECTURE.md) for detailed design decisions and rationale.
