@@ -1,14 +1,19 @@
-const STYLE = {
-  Low: 'bg-green-100 text-green-800 border-green-300',
-  Medium: 'bg-yellow-100 text-yellow-800 border-yellow-300',
-  High: 'bg-red-100 text-red-700 border-red-300',
+/* Light base styles for badges */
+const LIGHT = {
+  Low:    'border-emerald-200 bg-emerald-50 text-emerald-700',
+  Medium: 'border-amber-200 bg-amber-50 text-amber-700',
+  High:   'border-red-200 bg-red-50 text-red-700 animate-pulse-glow',
 }
-const TH = { Low: 'ความเสี่ยงต่ำ', Medium: 'ความเสี่ยงปานกลาง', High: 'ความเสี่ยงสูง' }
+/* Dark overrides applied via risk-* CSS class defined in index.css */
+const DARK = { Low: 'risk-low', Medium: 'risk-med', High: 'risk-high' }
+const ICON = { Low: '✅', Medium: '⚠️', High: '🚨' }
+const TH = { Low: 'ความเสี่ยงต่ำ', Medium: 'ความเสี่ยงปานกลาง', High: 'ความเสี่ยงระดับสูง' }
 
 export default function RiskBadge({ level }) {
   return (
-    <span className={`inline-flex items-center rounded-full border px-4 py-1 text-lg font-semibold ${STYLE[level]}`}>
-      {TH[level]} · {level}
+    <span className={`inline-flex items-center gap-2 rounded-xl border px-5 py-2 text-lg font-semibold ${LIGHT[level]} ${DARK[level]}`}>
+      <span className="text-xl">{ICON[level]}</span>
+      {TH[level]} · {level} Risk
     </span>
   )
 }
