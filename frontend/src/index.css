@@ -1,3 +1,245 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ── Base ─────────────────────────────────────────── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'IBM Plex Sans Thai', system-ui, sans-serif;
+  }
+
+  /* ── Dark mode global overrides ───────────────────
+     Force ALL white/light backgrounds dark via CSS.
+     This bypasses any Tailwind purge issues.
+  ─────────────────────────────────────────────────── */
+  .dark body,
+  .dark #root {
+    background-color: #0f172a;
+    color: #e2e8f0;
+  }
+
+  /* White cards → dark surface */
+  .dark .bg-white { background-color: #1e293b !important; }
+  .dark .bg-slate-50 { background-color: #1e293b !important; }
+
+  /* Light borders → dark borders */
+  .dark .border-slate-100 { border-color: #334155 !important; }
+  .dark .border-slate-200 { border-color: #334155 !important; }
+
+  /* Light text → lighter for readability */
+  .dark .text-slate-900 { color: #ffffff !important; }
+  .dark .text-slate-800 { color: #f1f5f9 !important; }
+  .dark .text-slate-700 { color: #e2e8f0 !important; }
+  .dark .text-slate-600 { color: #cbd5e1 !important; }
+  .dark .text-slate-500 { color: #94a3b8 !important; }
+
+  /* Light backgrounds in section icons */
+  .dark .bg-blue-50  { background-color: rgba(59, 130, 246, 0.15) !important; }
+  .dark .bg-teal-50  { background-color: rgba(20, 184, 166, 0.15) !important; }
+  .dark .bg-indigo-50 { background-color: rgba(99, 102, 241, 0.15) !important; }
+  .dark .bg-cyan-50  { background-color: rgba(6, 182, 212, 0.15) !important; }
+  .dark .bg-cyan-100 { background-color: rgba(6, 182, 212, 0.25) !important; }
+  .dark .bg-slate-700\/50 { background-color: rgba(51, 65, 85, 0.5) !important; }
+
+  /* Red/blue summary cards */
+  .dark .bg-red-50  { background-color: rgba(239, 68, 68, 0.12) !important; }
+  .dark .border-red-100 { border-color: rgba(239, 68, 68, 0.25) !important; }
+  .dark .bg-blue-50 { background-color: rgba(59, 130, 246, 0.12) !important; }
+  .dark .border-blue-100 { border-color: rgba(59, 130, 246, 0.25) !important; }
+
+  /* Upload label hover */
+  .dark .hover\:bg-cyan-50\/50:hover { background-color: rgba(6, 182, 212, 0.08) !important; }
+  .dark .hover\:bg-slate-100:hover { background-color: #334155 !important; }
+
+  /* Scrollbar */
+  .dark ::-webkit-scrollbar-track { background: #0f172a; }
+  .dark ::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.4); border-radius: 3px; }
+  .dark ::-webkit-scrollbar-thumb:hover { background: rgba(59, 130, 246, 0.6); }
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(59, 130, 246, 0.5); }
+
+/* ── Component utilities ──────────────────────────── */
+@layer components {
+
+  /* ─ Glass panels ─ */
+  .glass {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 6px 16px rgba(0, 0, 0, 0.03);
+  }
+  .dark .glass {
+    background: #1e293b;
+    backdrop-filter: none;
+    border: 1px solid #334155;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  }
+
+  /* ─ Form inputs ─ */
+  .glass-input {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    color: #1e293b;
+    transition: all 0.2s ease;
+  }
+  .glass-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+    outline: none;
+  }
+  .glass-input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #f8fafc;
+  }
+  .dark .glass-input {
+    background: #0f172a;
+    border: 1px solid #334155;
+    color: #e2e8f0;
+  }
+  .dark .glass-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  }
+  .dark .glass-input:disabled {
+    background: #0f172a;
+    opacity: 0.35;
+  }
+  /* Fix select option in dark */
+  .dark select.glass-input option {
+    background-color: #1e293b;
+    color: #e2e8f0;
+  }
+
+  /* ─ Gradient text ─ */
+  .text-gradient {
+    background: linear-gradient(135deg, #2563eb, #0891b2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .dark .text-gradient {
+    background: linear-gradient(135deg, #60a5fa, #22d3ee);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-red {
+    background: linear-gradient(135deg, #dc2626, #ea580c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ─ X-ray frame ─ */
+  .xray-frame {
+    position: relative;
+    border: 2px solid rgba(6, 182, 212, 0.25);
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.08), inset 0 0 20px rgba(0, 0, 0, 0.15);
+  }
+  .dark .xray-frame {
+    border-color: rgba(6, 182, 212, 0.4);
+    box-shadow: 0 0 30px rgba(6, 182, 212, 0.18), inset 0 0 30px rgba(0, 0, 0, 0.4);
+  }
+  .xray-frame::before,
+  .xray-frame::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-color: rgba(6, 182, 212, 0.5);
+    border-style: solid;
+  }
+  .xray-frame::before { top: 6px; left: 6px; border-width: 2px 0 0 2px; }
+  .xray-frame::after  { bottom: 6px; right: 6px; border-width: 0 2px 2px 0; }
+
+  /* ─ Analyze button ─ */
+  .btn-analyze {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-analyze::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+  }
+  .btn-analyze:hover::before { left: 100%; }
+  .btn-analyze:hover {
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+    transform: translateY(-1px);
+  }
+  .btn-analyze:disabled {
+    background: #cbd5e1;
+    box-shadow: none;
+    transform: none;
+    cursor: not-allowed;
+  }
+  .btn-analyze:disabled::before { display: none; }
+  .dark .btn-analyze:disabled { background: #334155; }
+
+  /* ─ Theme toggle ─ */
+  .theme-toggle {
+    position: relative;
+    width: 52px;
+    height: 28px;
+    border-radius: 14px;
+    background: #e2e8f0;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    flex-shrink: 0;
+  }
+  .theme-toggle::after {
+    content: '☀️';
+    font-size: 14px;
+    position: absolute;
+    top: 3px; left: 3px;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+  }
+  .dark .theme-toggle { background: #3b82f6; }
+  .dark .theme-toggle::after {
+    content: '🌙';
+    left: 27px;
+    background: #1e3a5f;
+  }
+
+  /* ─ RiskBadge dark fix ─ */
+  .dark .risk-low   { background: rgba(16, 185, 129, 0.15); border-color: rgba(16,185,129,0.4); color: #6ee7b7; }
+  .dark .risk-med   { background: rgba(245, 158, 11, 0.15); border-color: rgba(245,158,11,0.4); color: #fcd34d; }
+  .dark .risk-high  { background: rgba(239, 68, 68, 0.15);  border-color: rgba(239,68,68,0.4);  color: #fca5a5; }
+
+  /* Animations */
+  @keyframes fadeIn  { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes slideUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes pulseGlow { 0%,100% { box-shadow:0 0 10px rgba(239,68,68,0.3); } 50% { box-shadow:0 0 25px rgba(239,68,68,0.6); } }
+
+  .animate-fade-in  { animation: fadeIn  0.5s ease forwards; }
+  .animate-slide-up { animation: slideUp 0.5s ease forwards; }
+  .animate-pulse-glow { animation: pulseGlow 2s ease infinite; }
+}
