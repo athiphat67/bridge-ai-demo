@@ -1,3 +1,4 @@
+import BoneDirectionGraphic from '../components/BoneDirectionGraphic'
 import FactorList from '../components/FactorList'
 import RiskBadge from '../components/RiskBadge'
 import XrayOverlay from '../components/XrayOverlay'
@@ -30,9 +31,12 @@ export default function AnalysisSection({ result }) {
               <span className="text-xs text-slate-900">Salter-Harris Classification</span>
               <p className="text-xl font-bold text-slate-900 dark:text-slate-100">Grade {result.salter_harris}</p>
             </div>
+            {/* ทิศทางการโก่ง — กราฟิกกระดูกจำลอง + ลูกศรแรงดัน */}
             <div className="rounded-lg border border-slate-100 bg-slate-50 p-3 dark:border-slate-600 dark:bg-slate-700/50">
               <span className="text-xs text-slate-900">ทิศทางการโก่ง (Deformity)</span>
-              <p className="text-xl font-bold text-slate-900 dark:text-slate-100">{result.bend_direction}</p>
+              <div className="mt-1 flex justify-center">
+                <BoneDirectionGraphic direction={result.bend_direction} />
+              </div>
             </div>
           </div>
         </div>

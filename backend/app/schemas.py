@@ -26,10 +26,21 @@ class Factor(BaseModel):
     impact: Literal["low", "medium", "high"]
 
 
+class GrowthProbabilities(BaseModel):
+    """โอกาสเกิดผลลัพธ์ 3 รูปแบบ (รวมกัน = 100%)"""
+    varus_percent: float      # ขาโก่งออก (genu varum)
+    valgus_percent: float     # ขาฉิ่งเข้า (genu valgum)
+    arrest_percent: float     # หยุดโต (growth arrest)
+
+
 class GrowthPrediction(BaseModel):
     years: list[float]
     leg_length_diff_mm: list[float]
     angular_deg: list[float]
+    # ศักยภาพการเติบโตที่เหลือ (เทียบเด็กปกติวัยเดียวกัน)
+    remaining_growth_percent: float    # ฝั่งที่บาดเจ็บยังโตได้อีกกี่ % เทียบเด็กปกติ
+    normal_remaining_percent: float    # เด็กปกติวัยเดียวกันยังโตได้อีกกี่ %
+    probabilities: GrowthProbabilities
 
 
 class AnalysisResult(BaseModel):
