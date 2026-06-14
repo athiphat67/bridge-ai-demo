@@ -1,5 +1,5 @@
 import {
-  CartesianGrid, Legend, Line, LineChart, ResponsiveContainer,
+  Area, AreaChart, CartesianGrid, Legend, ResponsiveContainer,
   Tooltip, XAxis, YAxis,
 } from 'recharts'
 
@@ -33,18 +33,28 @@ export default function GrowthChart({ prediction }) {
 
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <LineChart data={data} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+      <AreaChart data={data} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+        <defs>
+          <linearGradient id="colorRed" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="#ef4444" stopOpacity={0.3}/>
+            <stop offset="95%" stopColor="#ef4444" stopOpacity={0}/>
+          </linearGradient>
+          <linearGradient id="colorBlue" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+            <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+          </linearGradient>
+        </defs>
         <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
         <XAxis dataKey="year" tick={{ fill: tickColor, fontSize: 12 }} axisLine={{ stroke: axisColor }} />
         <YAxis yAxisId="left" tick={{ fill: tickColor, fontSize: 12 }} axisLine={{ stroke: axisColor }} />
         <YAxis yAxisId="right" orientation="right" tick={{ fill: tickColor, fontSize: 12 }} axisLine={{ stroke: axisColor }} />
         <Tooltip content={<CustomTooltip />} />
         <Legend wrapperStyle={{ color: tickColor, fontSize: 12, paddingTop: 8 }} />
-        <Line yAxisId="left" type="monotone" dataKey="ขาสั้นต่างกัน (mm)"
-              stroke="#ef4444" strokeWidth={2.5} dot={{ fill: '#ef4444', r: 4 }} activeDot={{ r: 6, fill: '#ef4444', stroke: 'rgba(239,68,68,0.3)', strokeWidth: 6 }} />
-        <Line yAxisId="right" type="monotone" dataKey="มุมโก่ง (°)"
-              stroke="#3b82f6" strokeWidth={2.5} dot={{ fill: '#3b82f6', r: 4 }} activeDot={{ r: 6, fill: '#3b82f6', stroke: 'rgba(59,130,246,0.3)', strokeWidth: 6 }} />
-      </LineChart>
+        <Area yAxisId="left" type="monotone" dataKey="ขาสั้นต่างกัน (mm)"
+              stroke="#ef4444" fillOpacity={1} fill="url(#colorRed)" strokeWidth={2.5} dot={{ fill: '#ef4444', r: 4 }} activeDot={{ r: 6, fill: '#ef4444', stroke: 'rgba(239,68,68,0.3)', strokeWidth: 6 }} />
+        <Area yAxisId="right" type="monotone" dataKey="มุมโก่ง (°)"
+              stroke="#3b82f6" fillOpacity={1} fill="url(#colorBlue)" strokeWidth={2.5} dot={{ fill: '#3b82f6', r: 4 }} activeDot={{ r: 6, fill: '#3b82f6', stroke: 'rgba(59,130,246,0.3)', strokeWidth: 6 }} />
+      </AreaChart>
     </ResponsiveContainer>
   )
 }

@@ -238,8 +238,15 @@
   @keyframes fadeIn  { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
   @keyframes slideUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
   @keyframes pulseGlow { 0%,100% { box-shadow:0 0 10px rgba(239,68,68,0.3); } 50% { box-shadow:0 0 25px rgba(239,68,68,0.6); } }
+  @keyframes scanner { 
+    0% { top: -10%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 110%; opacity: 0; }
+  }
 
   .animate-fade-in  { animation: fadeIn  0.5s ease forwards; }
   .animate-slide-up { animation: slideUp 0.5s ease forwards; }
   .animate-pulse-glow { animation: pulseGlow 2s ease infinite; }
+  .animate-scanner { animation: scanner 3s ease-in-out infinite; }
 }

@@ -17,6 +17,7 @@ export default function Dashboard() {
   const [clinical, setClinical] = useState(DEFAULT_CLINICAL)
   const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [loadingText, setLoadingText] = useState('กำลังประมวลผล…')
   const [error, setError] = useState(null)
 
   // ── Theme toggle ──
@@ -41,15 +42,35 @@ export default function Dashboard() {
   const pickFile = (e) => { setImageFile(e.target.files[0] || null); setSelectedId(null) }
 
   const handleAnalyze = async () => {
-    setLoading(true); setError(null)
+    setLoading(true); setError(null);
+    setLoadingText('กำลังเตรียมภาพ X-ray…');
+
+    // Start loading text cycle
+    let step = 0;
+    const steps = [
+      'กำลังเตรียมภาพ X-ray…',
+      'กำลังสแกนโครงสร้างกระดูก…',
+      'กำลังประเมินความเสียหาย…',
+      'กำลังคำนวณแบบจำลองการเติบโต…'
+    ];
+    const interval = setInterval(() => {
+      step++;
+      setLoadingText(steps[step % steps.length]);
+    }, 800);
+
     try {
       const res = usingSample
         ? await analyze({ sampleId: selectedId })
         : await analyze({ image: imageFile, clinical })
+      
+      // Artificial delay to show off WOW animation
+      await new Promise(r => setTimeout(r, 2000));
+      
       setResult(res)
     } catch (err) {
       setError(err.response?.data?.detail || 'วิเคราะห์ไม่สำเร็จ')
     } finally {
+      clearInterval(interval);
       setLoading(false)
     }
   }
@@ -123,7 +144,7 @@ export default function Dashboard() {
             {loading ? (
               <span className="flex items-center justify-center gap-2">
                 <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
-                กำลังประมวลผล…
+                {loadingText}
               </span>
             ) : (
               <span className="flex items-center justify-center gap-2">
@@ -138,10 +159,22 @@ export default function Dashboard() {
         {/* ขวา: ผลลัพธ์ */}
         <section className="space-y-6">
           {!result ? (
-            <div className="glass flex h-80 flex-col items-center justify-center rounded-2xl">
-              <div className="mb-4 text-5xl opacity-30">🔬</div>
-              <p className="text-lg font-medium text-slate-900">รอการวิเคราะห์</p>
-              <p className="mt-1 text-sm text-slate-900">เลือกเคสตัวอย่างหรืออัปโหลดภาพ แล้วกด "วิเคราะห์"</p>
+            <div className="glass group relative flex h-[460px] flex-col items-center justify-center overflow-hidden rounded-2xl">
+              {/* Skeleton background */}
+              <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] transition-opacity duration-1000 group-hover:opacity-[0.06] dark:opacity-[0.08] dark:group-hover:opacity-[0.15]">
+                <div className="relative h-[300px] w-[200px] rounded-3xl border-8 border-current">
+                  <div className="absolute left-0 right-0 top-1/2 h-4 bg-current" />
+                </div>
+              </div>
+              <div className="z-10 flex flex-col items-center animate-pulse">
+                <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-slate-100 text-4xl shadow-inner dark:bg-slate-800">
+                  🔬
+                </div>
+                <p className="text-lg font-medium text-slate-900 dark:text-slate-200">ระบบพร้อมวิเคราะห์ภาพ</p>
+                <p className="mt-2 max-w-xs text-center text-sm text-slate-500 dark:text-slate-400">
+                  เลือกเคสตัวอย่างหรืออัปโหลดภาพ X-ray <br /> แล้วกดปุ่ม <b>"วิเคราะห์ภาพ X-ray"</b>
+                </p>
+              </div>
             </div>
           ) : (
             <>
