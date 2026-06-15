@@ -1,6 +1,7 @@
 import FactorList from '../components/FactorList'
 import RiskBadge from '../components/RiskBadge'
 import XrayOverlay from '../components/XrayOverlay'
+import BoneDirectionGraphic from '../components/BoneDirectionGraphic'
 import GrowthPredictionSection from './GrowthPredictionSection'
 
 const RECOMMENDATION = {
@@ -67,12 +68,8 @@ export default function AnalysisSection({ result }) {
           <span className="text-xs text-slate-900 dark:text-slate-400">ทิศทางการโก่ง (Deformity)</span>
           <div className="mt-2 flex items-center gap-3">
             <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">{result.bend_direction}</p>
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800">
-              {result.bend_direction === 'Varus' ? (
-                <svg className="h-6 w-6 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M15 4c-5 4-5 12 0 16" /><path d="M12 16l3 4 4-3" /></svg>
-              ) : (
-                <svg className="h-6 w-6 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M9 4c5 4 5 12 0 16" /><path d="M12 16l-3 4-4-3" /></svg>
-              )}
+            <div className="flex w-full items-center justify-center mt-2">
+              <BoneDirectionGraphic direction={result.bend_direction} />
             </div>
           </div>
         </div>
