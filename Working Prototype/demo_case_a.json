@@ -1,0 +1,114 @@
+{
+    "input_summary": {
+        "gender": "F",
+        "chronological_age_yr": 9.5,
+        "bone_age_yr": 10.0,
+        "height_cm": 133.0,
+        "weight_kg": 42.0,
+        "pathology_code": "STER-01",
+        "fusion_stage": "Stage_II",
+        "bone_site": "distal_femur",
+        "beta": 0.12,
+        "sigma": 0.18
+    },
+    "step1_bmi": {
+        "bmi": 23.7436,
+        "bmi_method": "WHO_BMI_for_age_5plus",
+        "lms_L": -1.4823,
+        "lms_M": 16.3425,
+        "lms_S": 0.12067,
+        "z_score": 2.3771,
+        "bmi_category": "Obesity",
+        "mechanical_stress_bias": 1.3
+    },
+    "step2_pathology": {
+        "pathology_code": "STER-01",
+        "base_weight": 0.7,
+        "severity_tier": "Critical",
+        "damage_intersect_applied": false,
+        "pathology_bias": 0.7
+    },
+    "step3_biological": {
+        "maturity_limit": 14.0,
+        "years_to_maturity": 4.0,
+        "G_basal_remaining_cm": 3.6,
+        "G_basal_annual_cm": 0.9
+    },
+    "step4_cv": {
+        "bone_type": "Femur",
+        "side": "Lateral",
+        "sh_type": "SH_Type_II",
+        "bar_location": "Peripheral",
+        "x_bar_px": 157.0,
+        "y_bar_px": 112.0,
+        "box_width_mm": 16.588,
+        "box_height_mm": 17.16,
+        "d_px": 29.0,
+        "d_mm": 8.294,
+        "arrest_base_risk_sh": 0.58
+    },
+    "step5_fusion": {
+        "fusion_stage": "Stage_II",
+        "fusion_multiplier": 0.5,
+        "combined_modifier": 0.91,
+        "G_basal_remaining_cm": 3.6,
+        "G_fused_cm": 1.8,
+        "G_undamaged_remaining_cm": 1.328,
+        "G_undamaged_annual_cm": 0.332,
+        "G_undamaged_annual_mm": 3.32,
+        "G_hueter_volkmann_mm_yr": 4.743,
+        "geometric_tethering": {
+            "delta_theta_rad_per_yr": 0.400289,
+            "delta_theta_deg_per_yr": 22.9349,
+            "deformity_applicable": true,
+            "deformity_risk_label": "High"
+        },
+        "projections": {
+            "year_1": {
+                "projected_LLD_cm": 0.568,
+                "projected_deformity_deg": 22.9349
+            },
+            "year_3": {
+                "projected_LLD_cm": 1.704,
+                "projected_deformity_deg": 45.0
+            },
+            "year_5": {
+                "projected_LLD_cm": 2.84,
+                "projected_deformity_deg": 45.0
+            }
+        },
+        "probabilities": {
+            "prob_complete_arrest": 0.7902,
+            "prob_varus_valgus_deformity": 1.0
+        },
+        "remaining_growth": {
+            "remaining_mm": 13.28,
+            "remaining_cm": 1.328
+        },
+        "clinical_summary": {
+            "lld_5yr_severity": "Moderate",
+            "deformity_5yr_severity": "Severe",
+            "intervention_recommended": true
+        }
+    },
+    "final_output": {
+        "remaining_growth_mm": 13.28,
+        "remaining_growth_cm": 1.328,
+        "prob_complete_arrest_pct": 79.02,
+        "prob_varus_valgus_pct": 100.0,
+        "projected_LLD_1yr_cm": 0.568,
+        "projected_LLD_3yr_cm": 1.704,
+        "projected_LLD_5yr_cm": 2.84,
+        "projected_deformity_1yr_deg": 22.9349,
+        "projected_deformity_3yr_deg": 45.0,
+        "projected_deformity_5yr_deg": 45.0,
+        "deformity_risk_label": "High",
+        "lld_severity": "Moderate",
+        "deformity_severity": "Severe",
+        "intervention_recommended": true,
+        "bmi_category": "Obesity",
+        "bmi": 23.7436,
+        "bmi_z_score": 2.3771,
+        "mechanical_stress_bias": 1.3
+    }
+}
