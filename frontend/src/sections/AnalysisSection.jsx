@@ -12,16 +12,16 @@ const RECOMMENDATION = {
 
 export default function AnalysisSection({ result }) {
   return (
-    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
       {/* ── ROW 1: Diagnosis ── */}
-      
+
       {/* 1. X-Ray Image */}
-      <div className="glass flex items-center justify-center rounded-2xl p-6 xl:col-span-1">
+      <div className="glass flex items-center justify-center rounded-2xl p-6 md:col-span-6 xl:col-span-4">
         <XrayOverlay image={result.overlay_image} />
       </div>
 
       {/* 2. Hero Metrics */}
-      <div className="glass flex flex-col justify-center space-y-6 rounded-2xl p-6 xl:col-span-1 bg-gradient-to-br from-slate-50/50 to-slate-100/30 dark:from-slate-800/40 dark:to-slate-800/10 shadow-sm border border-slate-100 dark:border-slate-700/50">
+      <div className="glass flex flex-col justify-center space-y-6 rounded-2xl p-6 md:col-span-6 xl:col-span-4 bg-gradient-to-br from-slate-50/50 to-slate-100/30 dark:from-slate-800/40 dark:to-slate-800/10 shadow-sm border border-slate-100 dark:border-slate-700/50">
         <div className="grid grid-cols-2 gap-4">
           <div>
             <p className="text-xs font-medium uppercase tracking-wider text-slate-900 dark:text-slate-400">Damage</p>
@@ -44,9 +44,9 @@ export default function AnalysisSection({ result }) {
       </div>
 
       {/* 3. Clinical Recommendation */}
-      <div className="glass flex flex-col rounded-2xl p-6 xl:col-span-1 bg-gradient-to-br from-teal-50/70 to-emerald-50/40 dark:from-teal-900/30 dark:to-emerald-900/10 border border-teal-100 dark:border-teal-800/30 relative overflow-hidden">
+      <div className="glass flex flex-col rounded-2xl p-6 md:col-span-12 xl:col-span-4 bg-gradient-to-br from-teal-50/70 to-emerald-50/40 dark:from-teal-900/30 dark:to-emerald-900/10 border border-teal-100 dark:border-teal-800/30 relative overflow-hidden">
         <div className="absolute -right-4 -top-4 opacity-10 dark:opacity-[0.03]">
-          <svg className="h-32 w-32 text-teal-600 dark:text-teal-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+          <svg className="h-32 w-32 text-teal-600 dark:text-teal-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" /></svg>
         </div>
         <div className="relative z-10 flex-1 flex flex-col">
           <div className="mb-4 flex items-center gap-3">
@@ -60,21 +60,14 @@ export default function AnalysisSection({ result }) {
       </div>
 
       {/* ── ROW 2: Prediction & Deformity ── */}
-      
+
       {/* 4. Deformity & Probabilities */}
-      <div className="glass flex flex-col space-y-6 rounded-2xl p-6 xl:col-span-1">
+      <div className="glass flex flex-col space-y-6 rounded-2xl p-6 md:col-span-6 xl:col-span-6">
         {/* Deformity */}
         <div className="group relative overflow-hidden rounded-xl border border-slate-200/60 bg-white/50 p-4 dark:border-slate-600/50 dark:bg-slate-700/30">
           <span className="text-xs text-slate-900 dark:text-slate-400">ทิศทางการโก่ง (Deformity)</span>
-          <div className="mt-2 flex items-center gap-3">
-            <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">{result.bend_direction}</p>
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800">
-              {result.bend_direction === 'Varus' ? (
-                <svg className="h-6 w-6 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M15 4c-5 4-5 12 0 16" /><path d="M12 16l3 4 4-3" /></svg>
-              ) : (
-                <svg className="h-6 w-6 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M9 4c5 4 5 12 0 16" /><path d="M12 16l-3 4-4-3" /></svg>
-              )}
-            </div>
+          <div className="mt-4 flex w-full justify-center">
+            <BoneDirectionGraphic direction={result.bend_direction} />
           </div>
         </div>
 
@@ -120,7 +113,7 @@ export default function AnalysisSection({ result }) {
       </div>
 
       {/* 5. Factors */}
-      <div className="glass flex flex-col rounded-2xl p-6 md:col-span-2 xl:col-span-2">
+      <div className="glass flex flex-col rounded-2xl p-6 md:col-span-6 xl:col-span-6">
         <div className="mb-5 flex items-center gap-3">
           <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-lg shadow-sm dark:bg-med-blue/20">📊</span>
           <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-200">ปัจจัยที่ส่งผลต่อความเสี่ยง (Explainability Factors)</h3>
@@ -131,9 +124,9 @@ export default function AnalysisSection({ result }) {
       </div>
 
       {/* ── ROW 3: Growth Prediction ── */}
-      
+
       {/* 6. Growth Chart */}
-      <div className="glass flex flex-col rounded-2xl p-6 md:col-span-2 xl:col-span-3 min-h-[400px]">
+      <div className="glass flex flex-col rounded-2xl p-6 md:col-span-12 xl:col-span-12 min-h-[400px]">
         <GrowthPredictionSection prediction={result.growth_prediction} />
       </div>
     </div>
