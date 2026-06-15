@@ -1,0 +1,101 @@
+{
+  "clinical_impact_modifiers": {
+    "version": "1.3",
+    "last_updated": "2026-06-10",
+    "weights": {
+      "0.70": {
+        "level": "Critical",
+        "description": "Irreversible physeal damage or severe structural failure",
+        "diseases": [
+          {"icd10": "Q78.0", "name_en": "Osteogenesis Imperfecta"},
+          {"icd10": "Q78.2", "name_en": "Osteopetrosis"},
+          {"icd10": "Q77.4", "name_en": "Achondroplasia"},
+          {"icd10": "N25.0", "name_en": "Renal Osteodystrophy"},
+          {"icd10": "E24.0", "name_en": "Cushing's Disease"},
+          {"icd10": "E76.2", "name_en": "Mucopolysaccharidoses (Morquio)"},
+          {"icd10": "E83.3", "name_en": "Severe Hypophosphatasia"}
+        ],
+        "medications": [
+          {"code": "TRT-01", "name_en": "Radiation Therapy"},
+          {"code": "HORM-01", "name_en": "GnRH Analogs (e.g., Leuprolide)"},
+          {"code": "DERM-01", "name_en": "Systemic Retinoids (e.g., Isotretinoin)"},
+          {"code": "STER-01", "name_en": "High-dose Corticosteroids"},
+          {"code": "CHEMO-01", "name_en": "Chemotherapy Agents (e.g., Methotrexate)"},
+          {"code": "ONC-03", "name_en": "Tyrosine Kinase Inhibitors (e.g., Imatinib)"}
+        ]
+      },
+      "0.80": {
+        "level": "High",
+        "description": "Chronic systemic disruption or severe malabsorption",
+        "diseases": [
+          {"icd10": "E23.0", "name_en": "Pituitary Dwarfism"},
+          {"icd10": "E03.9", "name_en": "Hypothyroidism"},
+          {"icd10": "E10.9", "name_en": "Type 1 Diabetes Mellitus (Uncontrolled)"},
+          {"icd10": "M08.0", "name_en": "Juvenile Idiopathic Arthritis"},
+          {"icd10": "M86.9", "name_en": "Chronic Osteomyelitis"},
+          {"icd10": "D57.0", "name_en": "Sickle Cell Anemia"},
+          {"icd10": "D56.1", "name_en": "Beta Thalassemia Major"},
+          {"icd10": "E25.0", "name_en": "Congenital Adrenal Hyperplasia"},
+          {"icd10": "Q87.1", "name_en": "Prader-Willi Syndrome"}
+        ],
+        "medications": [
+          {"code": "NEURO-01", "name_en": "Phenytoin"},
+          {"code": "NEURO-02", "name_en": "Phenobarbital"},
+          {"code": "IMM-01", "name_en": "Immunosuppressants (e.g., Tacrolimus)"},
+          {"code": "IMM-02", "name_en": "Cyclosporine"},
+          {"code": "ARV-01", "name_en": "Tenofovir (ARV)"},
+          {"code": "HEPA-01", "name_en": "Long-term Heparin Therapy"},
+          {"code": "HORM-02", "name_en": "Aromatase Inhibitors (e.g., Letrozole)"}
+        ]
+      },
+      "0.90": {
+        "level": "Moderate",
+        "description": "Nutritional deficiencies or manageable chronic conditions",
+        "diseases": [
+          {"icd10": "E55.0", "name_en": "Nutritional Rickets"},
+          {"icd10": "E43", "name_en": "Severe Protein-Energy Malnutrition"},
+          {"icd10": "E05.9", "name_en": "Hyperthyroidism"},
+          {"icd10": "E84.9", "name_en": "Cystic Fibrosis"},
+          {"icd10": "K50.9", "name_en": "Crohn's Disease"},
+          {"icd10": "J45.9", "name_en": "Severe Chronic Asthma"},
+          {"icd10": "F50.0", "name_en": "Anorexia Nervosa"},
+          {"icd10": "N04.9", "name_en": "Nephrotic Syndrome"},
+          {"icd10": "M33.0", "name_en": "Juvenile Dermatomyositis"}
+        ],
+        "medications": [
+          {"code": "STIM-01", "name_en": "CNS Stimulants (e.g., Methylphenidate)"},
+          {"code": "DIU-01", "name_en": "Loop Diuretics (e.g., Furosemide)"},
+          {"code": "NEURO-03", "name_en": "Valproic Acid (Depakine)"},
+          {"code": "PSY-01", "name_en": "Lithium"}
+        ]
+      },
+      "0.95": {
+        "level": "Low",
+        "description": "Indirect mechanical stress or minor absorption interference",
+        "diseases": [
+          {"icd10": "E54", "name_en": "Scurvy"},
+          {"icd10": "D50.9", "name_en": "Iron Deficiency Anemia"},
+          {"icd10": "E66.0", "name_en": "Childhood Obesity"},
+          {"icd10": "Q90.9", "name_en": "Down Syndrome"},
+          {"icd10": "G47.3", "name_en": "Obstructive Sleep Apnea in Children"},
+          {"icd10": "M41.9", "name_en": "Idiopathic Scoliosis"}
+        ],
+        "medications": [
+          {"code": "NSAID-01", "name_en": "Long-term NSAIDs"},
+          {"code": "GAS-01", "name_en": "Proton Pump Inhibitors (e.g., Omeprazole)"},
+          {"code": "PSY-02", "name_en": "SSRIs (e.g., Fluoxetine)"}
+        ]
+      },
+      "1.00": {
+        "level": "Baseline",
+        "description": "No underlying conditions or chronic medications affecting growth",
+        "diseases": [
+          {"icd10": "None", "name_en": "No underlying disease"}
+        ],
+        "medications": [
+          {"code": "None", "name_en": "No chronic medications"}
+        ]
+      }
+    }
+  }
+}

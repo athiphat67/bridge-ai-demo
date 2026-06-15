@@ -1,3 +1,4 @@
+import BoneDirectionGraphic from '../components/BoneDirectionGraphic'
 import FactorList from '../components/FactorList'
 import RiskBadge from '../components/RiskBadge'
 import XrayOverlay from '../components/XrayOverlay'
