@@ -9,14 +9,14 @@ const DOT_COLOR = {
   medium: 'bg-amber-500 dark:bg-amber-400',
   low: 'bg-slate-300 dark:bg-slate-500',
 }
-const TH = { high: 'ผลสูง', medium: 'ผลปานกลาง', low: 'ผลต่ำ' }
+const TH = { high: 'ผลสูง 100%', medium: 'ผลปานกลาง 66%', low: 'ผลต่ำ 33%' }
 
 export default function FactorList({ factors }) {
   return (
-    <ul className="space-y-2">
+    <ul className="flex h-full flex-col gap-4">
       {factors.map((f, i) => (
-        <li key={i} className="rounded-lg border border-slate-100 bg-white p-3 transition hover:shadow-card dark:border-slate-600 dark:bg-slate-700/50 dark:hover:bg-slate-700">
-          <div className="flex items-center justify-between text-sm">
+        <li key={i} className="flex flex-1 flex-col justify-center rounded-lg border border-slate-100 bg-white p-4 transition hover:shadow-card dark:border-slate-600 dark:bg-slate-700/50 dark:hover:bg-slate-700">
+          <div className="flex items-center justify-between text-sm mb-1">
             <span className="flex items-center gap-2 text-slate-900 dark:text-slate-200">
               <span className={`h-2 w-2 rounded-full ${DOT_COLOR[f.impact]}`} />
               {f.label}

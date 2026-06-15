@@ -3,7 +3,6 @@ import { analyze, getSamples } from '../api/client'
 import ClinicalForm from '../components/ClinicalForm'
 import SamplePicker from '../components/SamplePicker'
 import AnalysisSection from '../sections/AnalysisSection'
-import GrowthPredictionSection from '../sections/GrowthPredictionSection'
 
 const DEFAULT_CLINICAL = {
   age_years: 8, bone_age_years: 8, gender: 'male',
@@ -81,7 +80,7 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100 text-slate-900 transition-colors duration-300 dark:bg-[#0f172a] dark:from-[#0f172a] dark:via-[#0f172a] dark:to-[#0f172a] dark:text-slate-200">
       {/* ── Header ── */}
       <header className="glass sticky top-0 z-50 px-6 py-4">
-        <div className="mx-auto flex max-w-7xl items-center gap-3">
+        <div className="mx-auto flex max-w-[1600px] items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-med-blue to-med-cyan shadow-glow-blue">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
           </div>
@@ -101,7 +100,7 @@ export default function Dashboard() {
       </header>
 
       {/* ── Main ── */}
-      <main className="mx-auto grid max-w-7xl grid-cols-1 gap-6 p-6 lg:grid-cols-[420px_1fr]">
+      <main className="mx-auto grid max-w-[1600px] grid-cols-1 gap-6 p-6 lg:grid-cols-[400px_1fr]">
         {/* ซ้าย: input */}
         <section className="glass space-y-5 rounded-2xl p-5">
           {/* Section header */}
@@ -177,14 +176,9 @@ export default function Dashboard() {
               </div>
             </div>
           ) : (
-            <>
-              <div className="glass animate-fade-in rounded-2xl p-6">
-                <AnalysisSection result={result} />
-              </div>
-              <div className="glass animate-slide-up rounded-2xl p-6">
-                <GrowthPredictionSection prediction={result.growth_prediction} />
-              </div>
-            </>
+            <div className="glass animate-fade-in rounded-2xl p-6">
+              <AnalysisSection result={result} />
+            </div>
           )}
         </section>
       </main>

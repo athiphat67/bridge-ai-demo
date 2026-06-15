@@ -71,10 +71,12 @@ async def analyze(
     return AnalysisResult(
         overlay_image=render(filename, box, bar_area),
         damage_percent=round(bar_area, 1),
+        remaining_growth_percent=scoring.remaining_growth(bar_area),
         risk_level=scoring.risk_level(score),
         salter_harris=scoring.salter_harris(label.get("salter_harris"), bar_area),
         bend_direction=scoring.bend_direction(clinical.location),
         growth_prediction=growth,
+        probability=scoring.calculate_probabilities(clinical.location, bar_area),
         factors=scoring.build_factors(bar_area, clinical.age_years,
                                       clinical.location, clinical.medical_history),
     )

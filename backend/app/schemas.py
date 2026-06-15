@@ -32,13 +32,21 @@ class GrowthPrediction(BaseModel):
     angular_deg: list[float]
 
 
+class ProbabilityData(BaseModel):
+    valgus_percent: int
+    varus_percent: int
+    arrest_percent: int
+
+
 class AnalysisResult(BaseModel):
     overlay_image: str                 # data:image/png;base64,...
     damage_percent: float              # ตัวเลข hero
+    remaining_growth_percent: int
     risk_level: Literal["Low", "Medium", "High"]
     salter_harris: str
     bend_direction: Literal["Varus", "Valgus"]
     growth_prediction: GrowthPrediction
+    probability: ProbabilityData
     factors: list[Factor]
 
 
