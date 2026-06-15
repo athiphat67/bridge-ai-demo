@@ -46,6 +46,26 @@ def bend_direction(location: str) -> str:
     return "Varus" if location == "medial" else "Valgus"
 
 
+def remaining_growth(damage_percent: float) -> int:
+    return int(max(0, 100 - damage_percent))
+
+
+def calculate_probabilities(location: str, damage_percent: float) -> dict:
+    arrest = int(_clamp(damage_percent * 0.4, 5, 40))
+    remain = 100 - arrest
+    if location == "medial":
+        varus = int(remain * 0.8)
+        valgus = remain - varus
+    else:
+        valgus = int(remain * 0.8)
+        varus = remain - valgus
+    return {
+        "valgus_percent": valgus,
+        "varus_percent": varus,
+        "arrest_percent": arrest
+    }
+
+
 def build_factors(bar_area: float, age: float, location: str,
                   medical_history: list[str]) -> list[Factor]:
     factors = [
