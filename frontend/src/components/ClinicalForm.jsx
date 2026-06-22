@@ -7,48 +7,48 @@ export default function ClinicalForm({ value, onChange, disabled }) {
     <div className="grid grid-cols-2 gap-3">
       <label className="space-y-1">
         <span className="flex items-center gap-1.5 text-xs font-medium text-slate-900 dark:text-slate-400">
-          <span className="text-sm">📅</span> อายุจริง (ปี)
+          <span className="text-sm">📅</span> Chronological Age (yrs)
         </span>
         <input type="number" className="glass-input w-full rounded-lg px-3 py-2 text-sm"
                value={value.age_years} onChange={set('age_years')} disabled={disabled} />
       </label>
       <label className="space-y-1">
         <span className="flex items-center gap-1.5 text-xs font-medium text-slate-900 dark:text-slate-400">
-          <span className="text-sm">🦴</span> อายุกระดูก (ปี)
+          <span className="text-sm">🦴</span> Bone Age (yrs)
         </span>
         <input type="number" className="glass-input w-full rounded-lg px-3 py-2 text-sm"
                value={value.bone_age_years} onChange={set('bone_age_years')} disabled={disabled} />
       </label>
       <label className="space-y-1">
         <span className="flex items-center gap-1.5 text-xs font-medium text-slate-900 dark:text-slate-400">
-          <span className="text-sm">👤</span> เพศ
+          <span className="text-sm">👤</span> Sex
         </span>
         <select className="glass-input w-full rounded-lg px-3 py-2 text-sm"
                 value={value.gender} onChange={set('gender')} disabled={disabled}>
-          <option value="male">ชาย</option>
-          <option value="female">หญิง</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
         </select>
       </label>
       <label className="space-y-1">
         <span className="flex items-center gap-1.5 text-xs font-medium text-slate-900 dark:text-slate-400">
-          <span className="text-sm">📍</span> ตำแหน่ง Bar
+          <span className="text-sm">📍</span> Bar Location
         </span>
         <select className="glass-input w-full rounded-lg px-3 py-2 text-sm"
                 value={value.location} onChange={set('location')} disabled={disabled}>
-          <option value="medial">Medial (ด้านใน)</option>
-          <option value="lateral">Lateral (ด้านนอก)</option>
+          <option value="medial">Medial (inner)</option>
+          <option value="lateral">Lateral (outer)</option>
         </select>
       </label>
       <label className="space-y-1">
         <span className="flex items-center gap-1.5 text-xs font-medium text-slate-900 dark:text-slate-400">
-          <span className="text-sm">⚖️</span> น้ำหนัก (kg)
+          <span className="text-sm">⚖️</span> Weight (kg)
         </span>
         <input type="number" className="glass-input w-full rounded-lg px-3 py-2 text-sm"
                value={value.weight_kg} onChange={set('weight_kg')} disabled={disabled} />
       </label>
       <label className="space-y-1">
         <span className="flex items-center gap-1.5 text-xs font-medium text-slate-900 dark:text-slate-400">
-          <span className="text-sm">📏</span> ส่วนสูง (cm)
+          <span className="text-sm">📏</span> Height (cm)
         </span>
         <input type="number" className="glass-input w-full rounded-lg px-3 py-2 text-sm"
                value={value.height_cm} onChange={set('height_cm')} disabled={disabled} />
@@ -57,7 +57,7 @@ export default function ClinicalForm({ value, onChange, disabled }) {
         <input type="checkbox" checked={value.medical_history === 'corticosteroid'}
                onChange={toggleSteroid} disabled={disabled}
                className="h-4 w-4 rounded border-slate-300 text-med-blue focus:ring-med-blue/30 dark:border-white/20 dark:bg-navy-800" />
-        💊 มีประวัติใช้ Corticosteroid
+        💊 History of Corticosteroid Use
       </label>
     </div>
   )

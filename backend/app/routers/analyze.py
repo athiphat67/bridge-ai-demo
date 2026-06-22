@@ -39,13 +39,13 @@ async def analyze(
     if sample_id:
         case = get_by_id(sample_id)
         if not case:
-            raise HTTPException(404, f"ไม่พบ sample_id: {sample_id}")
+            raise HTTPException(404, f"Sample not found: {sample_id}")
         clinical = _clinical_from_dict(case["clinical"])
         label = case.get("label", {})
         filename = case["filename"]
     elif image is not None:
         if None in (age_years, gender, weight_kg, height_cm, location):
-            raise HTTPException(422, "ต้องกรอก clinical input ให้ครบเมื่ออัปโหลดภาพเอง")
+            raise HTTPException(422, "Clinical input fields are required when uploading an image")
         clinical = ClinicalInput(
             age_years=age_years, bone_age_years=bone_age_years, gender=gender,
             weight_kg=weight_kg, height_cm=height_cm, location=location,
@@ -55,7 +55,7 @@ async def analyze(
         label = case.get("label", {}) if case else {}
         filename = case["filename"] if case else None   # unmatched → placeholder
     else:
-        raise HTTPException(422, "ต้องส่ง sample_id หรือ image อย่างใดอย่างหนึ่ง")
+        raise HTTPException(422, "Either sample_id or image must be provided")
 
     # --- คำนวณ mock outputs ---
     bar_area = float(label.get("bar_area_percent", _DEFAULT_BAR_AREA))

@@ -7,16 +7,16 @@
  */
 const CONFIG = {
   Varus: {
-    th: 'ขาโก่งออก (Bow legs)',
-    tilt: 14,            // องศาเอียงของกระดูกท่อนล่าง
-    arrowDir: 1,         // 1 = ดันออกนอก
+    label: 'Bow-legged',
+    tilt: 14,
+    arrowDir: 1,
     color: '#f59e0b',
-    barSide: 'medial',   // bar อยู่ฝั่งใน → ฝั่งในโตช้า
+    barSide: 'medial',
   },
   Valgus: {
-    th: 'ขาฉิ่งเข้า (Knock knees)',
+    label: 'Knock-kneed',
     tilt: -14,
-    arrowDir: -1,        // -1 = ดันเข้าใน
+    arrowDir: -1,
     color: '#3b82f6',
     barSide: 'lateral',
   },
@@ -36,7 +36,7 @@ export default function BoneDirectionGraphic({ direction }) {
   return (
     <div className="flex flex-col items-center gap-2">
       <svg viewBox="0 0 140 170" className="h-36 w-auto" role="img"
-           aria-label={`ทิศทางการเอียง ${direction}`}>
+           aria-label={`Deformity direction: ${direction}`}>
         {/* เส้นแกนปกติ (เด็กปกติ) — เทาประ */}
         <line x1={cx} y1={20} x2={cx} y2={150} stroke="currentColor"
               className="text-slate-300 dark:text-slate-600" strokeWidth="2"
@@ -74,7 +74,7 @@ export default function BoneDirectionGraphic({ direction }) {
         </g>
       </svg>
       <span className="text-sm font-semibold" style={{ color: c.color }}>
-        {direction} · {c.th}
+        {direction} · {c.label}
       </span>
     </div>
   )

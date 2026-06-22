@@ -9,7 +9,7 @@ const DOT_COLOR = {
   medium: 'bg-amber-500 dark:bg-amber-400',
   low: 'bg-slate-300 dark:bg-slate-500',
 }
-const TH = { high: 'ผลสูง 100%', medium: 'ผลปานกลาง 66%', low: 'ผลต่ำ 33%' }
+const TH = { high: 'High Impact', medium: 'Moderate Impact', low: 'Low Impact' }
 
 export default function FactorList({ factors }) {
   return (

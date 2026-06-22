@@ -6,12 +6,16 @@ import XrayOverlay from '../components/XrayOverlay'
 import GrowthPredictionSection from './GrowthPredictionSection'
 
 const RECOMMENDATION = {
-  High: 'จากข้อมูลพบการทำลายของ Growth Plate ระดับสูง ควรพิจารณาการผ่าตัด Bar resection หรือ Epiphysiodesis เพื่อป้องกัน Deformity ที่รุนแรง ในอนาคต ติดตามอาการอย่างใกล้ชิดทุก 3-6 เดือน',
-  Medium: 'พบการทำลายของ Growth Plate ระดับปานกลาง ควรติดตามอาการอย่างใกล้ชิด ทุก 6 เดือน และพิจารณาแนวทางการรักษาเพิ่มเติมหาก Deformity มีแนวโน้มเพิ่มขึ้น',
-  Low: 'พบการทำลายของ Growth Plate ระดับต่ำ มีแนวโน้มที่ดี ควรติดตามผลทุก 6-12 เดือน เพื่อเฝ้าระวังการเปลี่ยนแปลง',
+  High: 'High-grade growth plate damage identified. Consider surgical intervention (Bar Resection or Epiphysiodesis) to prevent severe future deformity. Close follow-up every 3–6 months is recommended.',
+  Medium: 'Moderate growth plate damage detected. Close monitoring every 6 months is recommended. Consider additional treatment options if deformity continues to progress.',
+  Low: 'Low-grade growth plate damage with a favourable prognosis. Routine follow-up every 6–12 months is advised to monitor for changes.',
 }
 
-export default function AnalysisSection({ result }) {
+export default function AnalysisSection({ result, clinical, usingSample }) {
+  const bmi = (!usingSample && clinical?.weight_kg && clinical?.height_cm)
+    ? (clinical.weight_kg / Math.pow(clinical.height_cm / 100, 2)).toFixed(1)
+    : null
+
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
       {/* ── ROW 1: Diagnosis ── */}
@@ -38,9 +42,17 @@ export default function AnalysisSection({ result }) {
           <RiskBadge level={result.risk_level} />
         </div>
 
-        <div className="rounded-lg border border-slate-200/60 bg-white/50 p-4 dark:border-slate-600/50 dark:bg-slate-700/30">
-          <span className="text-xs text-slate-900 dark:text-slate-400">Salter-Harris Classification</span>
-          <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">Grade {result.salter_harris}</p>
+        <div className="grid grid-cols-2 gap-3">
+          <div className="rounded-lg border border-slate-200/60 bg-white/50 p-4 dark:border-slate-600/50 dark:bg-slate-700/30">
+            <span className="text-xs text-slate-900 dark:text-slate-400">Salter-Harris Classification</span>
+            <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">Grade {result.salter_harris}</p>
+          </div>
+          <div className="rounded-lg border border-slate-200/60 bg-white/50 p-4 dark:border-slate-600/50 dark:bg-slate-700/30">
+            <span className="text-xs text-slate-900 dark:text-slate-400">BMI</span>
+            <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
+              {bmi !== null ? bmi : '—'}
+            </p>
+          </div>
         </div>
       </div>
 
@@ -52,7 +64,7 @@ export default function AnalysisSection({ result }) {
         <div className="relative z-10 flex-1 flex flex-col">
           <div className="mb-4 flex items-center gap-3">
             <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-100 text-lg shadow-sm dark:bg-med-teal/40">💡</span>
-            <h3 className="text-lg font-semibold text-teal-950 dark:text-teal-100">ข้อเสนอแนะทางคลินิก</h3>
+            <h3 className="text-lg font-semibold text-teal-950 dark:text-teal-100">Clinical Recommendation</h3>
           </div>
           <div className="flex-1 rounded-xl bg-white/70 p-5 text-base leading-relaxed text-slate-800 shadow-sm backdrop-blur-md dark:bg-slate-900/40 dark:text-slate-200">
             {RECOMMENDATION[result.risk_level] || RECOMMENDATION.Low}
@@ -66,7 +78,7 @@ export default function AnalysisSection({ result }) {
       <div className="glass flex flex-col space-y-6 rounded-2xl p-6 md:col-span-6 xl:col-span-6">
         {/* Deformity */}
         <div className="group relative overflow-hidden rounded-xl border border-slate-200/60 bg-white/50 p-4 dark:border-slate-600/50 dark:bg-slate-700/30">
-          <span className="text-xs text-slate-900 dark:text-slate-400">ทิศทางการโก่ง (Deformity)</span>
+          <span className="text-xs text-slate-900 dark:text-slate-400">Deformity Direction</span>
           <div className="mt-4 flex w-full justify-center">
             <BoneDirectionGraphic direction={result.bend_direction} />
           </div>
@@ -76,7 +88,7 @@ export default function AnalysisSection({ result }) {
         <div className="flex-1">
           <div className="mb-3 flex items-center gap-2">
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-50 text-sm dark:bg-med-indigo/20">🎯</span>
-            <h3 className="font-semibold text-slate-900 dark:text-slate-200">โอกาสเกิดความผิดปกติ</h3>
+            <h3 className="font-semibold text-slate-900 dark:text-slate-200">Deformity Probability</h3>
           </div>
           <div className="rounded-xl border border-slate-200/60 bg-white/50 p-5 dark:border-slate-600/50 dark:bg-slate-700/30">
             <ProbabilityBars probabilities={result.growth_prediction.probabilities} />
@@ -88,7 +100,7 @@ export default function AnalysisSection({ result }) {
       <div className="glass flex flex-col rounded-2xl p-6 md:col-span-6 xl:col-span-6">
         <div className="mb-5 flex items-center gap-3">
           <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-lg shadow-sm dark:bg-med-blue/20">📊</span>
-          <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-200">ปัจจัยที่ส่งผลต่อความเสี่ยง (Explainability Factors)</h3>
+          <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-200">Risk Factors (Explainability)</h3>
         </div>
         <div className="flex-1 flex flex-col">
           <FactorList factors={result.factors} />

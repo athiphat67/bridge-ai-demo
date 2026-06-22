@@ -6,7 +6,6 @@ export default function GrowthPredictionSection({ prediction }) {
   const deg5 = prediction.angular_deg[prediction.angular_deg.length - 1]
   const remaining = prediction.remaining_growth_percent
   const normalRemaining = prediction.normal_remaining_percent
-  // สัดส่วนศักยภาพที่เหลือเทียบเด็กปกติ (ใช้เติมวงแหวน gauge)
   const vsNormal = normalRemaining > 0
     ? Math.round((remaining / normalRemaining) * 100)
     : 0
@@ -17,29 +16,30 @@ export default function GrowthPredictionSection({ prediction }) {
       <div className="mb-4 flex items-center gap-2">
         <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-50 text-base dark:bg-med-indigo/20">📈</span>
         <div>
-          <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">ทำนายแนวโน้มการเจริญเติบโต 1 / 3 / 5 ปี</h3>
+          <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Growth Trend Prediction: 1 / 3 / 5 Years</h3>
           <p className="text-xs text-slate-900">
-            คาดการณ์ความต่างความยาวขาและมุมโก่งหากไม่ได้รับการรักษา
+            Projected leg length discrepancy and angular deformity without treatment
           </p>
         </div>
       </div>
 
-      {/* Remaining Growth Potential — ศักยภาพการเติบโตที่เหลือ เทียบเด็กปกติ */}
+      {/* Remaining Growth Potential */}
       <div className="mb-5 rounded-xl border border-teal-100 bg-teal-50/60 p-4 dark:border-med-teal/20 dark:bg-med-teal/5">
         <p className="mb-3 text-xs font-medium uppercase tracking-wider text-teal-700 dark:text-med-teal">
-          ศักยภาพการเติบโตที่เหลือ (Remaining Growth Potential)
+          Remaining Growth Potential
         </p>
         <div className="flex items-center gap-5">
           {/* Donut gauge */}
           <RemainingGauge value={remaining} vsNormal={vsNormal} />
           <div className="flex-1 space-y-2 text-sm">
             <p className="text-slate-900 dark:text-slate-300">
-              กระดูกฝั่งที่บาดเจ็บยังมีศักยภาพยืดยาวได้อีก
+              The injured physis retains
               <span className="ml-1 text-xl font-bold text-teal-600 dark:text-med-teal">{remaining}%</span>
+              {' '}growth potential
             </p>
             <p className="text-xs text-slate-900 dark:text-slate-400">
-              เทียบเด็กปกติวัยเดียวกัน (ยังเหลือ {normalRemaining}%) → คิดเป็น
-              <span className="font-semibold text-teal-700 dark:text-med-teal"> {vsNormal}%</span> ของศักยภาพปกติ
+              vs. age-matched normal ({normalRemaining}% remaining) →
+              <span className="font-semibold text-teal-700 dark:text-med-teal"> {vsNormal}%</span> of normal potential
             </p>
             <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
               <div className="h-full rounded-full bg-teal-500 transition-all duration-700"
@@ -52,11 +52,11 @@ export default function GrowthPredictionSection({ prediction }) {
       {/* Summary mini-cards */}
       <div className="mb-5 grid grid-cols-2 gap-3">
         <div className="rounded-lg border border-red-100 bg-red-50 p-3 dark:border-red-500/10 dark:bg-red-500/5">
-          <p className="text-xs text-slate-900 dark:text-slate-400">ขาสั้นต่างกันสูงสุด (5 ปี)</p>
+          <p className="text-xs text-slate-900 dark:text-slate-400">Max Leg Length Discrepancy (5 yr)</p>
           <p className="text-2xl font-bold text-red-600 dark:text-red-400">~{mm5} mm</p>
         </div>
         <div className="rounded-lg border border-blue-100 bg-blue-50 p-3 dark:border-med-blue/20 dark:bg-med-blue/5">
-          <p className="text-xs text-slate-900 dark:text-slate-400">มุมโก่งสูงสุด (5 ปี)</p>
+          <p className="text-xs text-slate-900 dark:text-slate-400">Max Angular Deformity (5 yr)</p>
           <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">~{deg5}°</p>
         </div>
       </div>
@@ -64,13 +64,13 @@ export default function GrowthPredictionSection({ prediction }) {
       {/* Chart */}
       <GrowthChart prediction={prediction} />
 
-      {/* กราฟความน่าจะเป็น 3 รูปแบบ */}
+      {/* Probability bars */}
       <div className="mt-6">
         <div className="mb-3 flex items-center gap-2">
           <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-50 text-sm dark:bg-amber-500/20">📊</span>
           <div>
-            <h4 className="font-semibold text-slate-900 dark:text-slate-200">โอกาสเกิดความผิดปกติ</h4>
-            <p className="text-xs text-slate-900 dark:text-slate-400">แบ่งความน่าจะเป็นออกเป็น 3 รูปแบบ (รวม 100%)</p>
+            <h4 className="font-semibold text-slate-900 dark:text-slate-200">Deformity Probability</h4>
+            <p className="text-xs text-slate-900 dark:text-slate-400">Probability split across 3 outcomes (total 100%)</p>
           </div>
         </div>
         <ProbabilityBars probabilities={prediction.probabilities} />
@@ -79,7 +79,7 @@ export default function GrowthPredictionSection({ prediction }) {
   )
 }
 
-/** เกจโดนัทแสดง % ศักยภาพที่เหลือเทียบเด็กปกติ */
+/** Donut gauge showing remaining growth % vs age-matched normal */
 function RemainingGauge({ value, vsNormal }) {
   const r = 32, c = 2 * Math.PI * r
   const pct = Math.max(0, Math.min(100, vsNormal))
@@ -96,7 +96,7 @@ function RemainingGauge({ value, vsNormal }) {
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className="text-xl font-bold text-teal-600 dark:text-med-teal">{value}%</span>
-        <span className="text-[10px] text-slate-500 dark:text-slate-400">เหลืออยู่</span>
+        <span className="text-[10px] text-slate-500 dark:text-slate-400">left</span>
       </div>
     </div>
   )

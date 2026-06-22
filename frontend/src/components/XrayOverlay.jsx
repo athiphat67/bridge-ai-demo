@@ -2,7 +2,7 @@
 export default function XrayOverlay({ image }) {
   return (
     <div className="xray-frame group relative overflow-hidden rounded-xl bg-black">
-      <img src={image} alt="ผลวิเคราะห์ X-ray"
+      <img src={image} alt="X-ray analysis result"
            className="mx-auto block max-h-[460px] w-auto animate-fade-in transition-transform duration-500 ease-out group-hover:scale-[1.03]" />
       
       {/* Scanner Animation Overlay */}

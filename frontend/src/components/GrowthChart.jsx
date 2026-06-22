@@ -20,9 +20,9 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 export default function GrowthChart({ prediction }) {
   const data = prediction.years.map((y, i) => ({
-    year: `${y} ปี`,
-    'ขาสั้นต่างกัน (mm)': prediction.leg_length_diff_mm[i],
-    'มุมโก่ง (°)': prediction.angular_deg[i],
+    year: `${y} yr`,
+    'Leg Length Discrepancy (mm)': prediction.leg_length_diff_mm[i],
+    'Angular Deformity (°)': prediction.angular_deg[i],
   }))
 
   // Check if dark mode is active for dynamic styling
@@ -50,9 +50,9 @@ export default function GrowthChart({ prediction }) {
         <YAxis yAxisId="right" orientation="right" tick={{ fill: tickColor, fontSize: 12 }} axisLine={{ stroke: axisColor }} />
         <Tooltip content={<CustomTooltip />} />
         <Legend wrapperStyle={{ color: tickColor, fontSize: 12, paddingTop: 8 }} />
-        <Area yAxisId="left" type="monotone" dataKey="ขาสั้นต่างกัน (mm)"
+        <Area yAxisId="left" type="monotone" dataKey="Leg Length Discrepancy (mm)"
               stroke="#ef4444" fillOpacity={1} fill="url(#colorRed)" strokeWidth={2.5} dot={{ fill: '#ef4444', r: 4 }} activeDot={{ r: 6, fill: '#ef4444', stroke: 'rgba(239,68,68,0.3)', strokeWidth: 6 }} />
-        <Area yAxisId="right" type="monotone" dataKey="มุมโก่ง (°)"
+        <Area yAxisId="right" type="monotone" dataKey="Angular Deformity (°)"
               stroke="#3b82f6" fillOpacity={1} fill="url(#colorBlue)" strokeWidth={2.5} dot={{ fill: '#3b82f6', r: 4 }} activeDot={{ r: 6, fill: '#3b82f6', stroke: 'rgba(59,130,246,0.3)', strokeWidth: 6 }} />
       </AreaChart>
     </ResponsiveContainer>

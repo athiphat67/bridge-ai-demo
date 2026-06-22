@@ -3,9 +3,9 @@
  *   ขาโก่งออก (Varus) · ขาฉิ่งเข้า (Valgus) · หยุดโต (Arrest)
  */
 const ROWS = [
-  { key: 'varus_percent',  label: 'ขาโก่งออก', sub: 'Varus',  color: '#f59e0b', icon: '⟨ ⟩' },
-  { key: 'valgus_percent', label: 'ขาฉิ่งเข้า', sub: 'Valgus', color: '#3b82f6', icon: '⟩ ⟨' },
-  { key: 'arrest_percent', label: 'หยุดโต',     sub: 'Arrest', color: '#ef4444', icon: '⊘' },
+  { key: 'varus_percent',  label: 'Bow-legged',     sub: 'Varus',  color: '#f59e0b', icon: '⟨ ⟩' },
+  { key: 'valgus_percent', label: 'Knock-kneed',    sub: 'Valgus', color: '#3b82f6', icon: '⟩ ⟨' },
+  { key: 'arrest_percent', label: 'Growth Arrest',  sub: 'Arrest', color: '#ef4444', icon: '⊘' },
 ]
 
 export default function ProbabilityBars({ probabilities }) {

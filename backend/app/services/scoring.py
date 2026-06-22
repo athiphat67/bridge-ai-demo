@@ -51,11 +51,11 @@ def build_factors(bar_area: float, age: float, location: str,
     factors = [
         Factor(label=f"Physeal Bar Area {bar_area:.0f}%",
                impact="high" if bar_area >= 50 else "medium" if bar_area >= 25 else "low"),
-        Factor(label=f"ตำแหน่ง {'Medial' if location == 'medial' else 'Lateral'}",
+        Factor(label=f"Location: {'Medial' if location == 'medial' else 'Lateral'}",
                impact="high" if location == "medial" else "medium"),
-        Factor(label=f"อายุ {age:.0f} ปี" + (" (กระดูกยังโตอีกมาก)" if age < 8 else ""),
+        Factor(label=f"Age {age:.0f} yrs" + (" (high remaining growth)" if age < 8 else ""),
                impact="high" if age < 8 else "medium" if age <= 14 else "low"),
     ]
     if any("cortico" in m.lower() or "steroid" in m.lower() for m in medical_history):
-        factors.append(Factor(label="ประวัติใช้ Corticosteroid", impact="medium"))
+        factors.append(Factor(label="History of Corticosteroid Use", impact="medium"))
     return factors
