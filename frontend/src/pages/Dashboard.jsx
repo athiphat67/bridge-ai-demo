@@ -61,10 +61,6 @@ export default function Dashboard() {
       const res = usingSample
         ? await analyze({ sampleId: selectedId })
         : await analyze({ image: imageFile, clinical })
-      
-      // Artificial delay to show off WOW animation
-      await new Promise(r => setTimeout(r, 2000));
-      
       setResult(res)
     } catch (err) {
       setError(err.response?.data?.detail || 'วิเคราะห์ไม่สำเร็จ')

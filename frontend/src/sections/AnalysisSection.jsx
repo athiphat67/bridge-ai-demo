@@ -1,5 +1,6 @@
 import BoneDirectionGraphic from '../components/BoneDirectionGraphic'
 import FactorList from '../components/FactorList'
+import ProbabilityBars from '../components/ProbabilityBars'
 import RiskBadge from '../components/RiskBadge'
 import XrayOverlay from '../components/XrayOverlay'
 import GrowthPredictionSection from './GrowthPredictionSection'
@@ -29,7 +30,7 @@ export default function AnalysisSection({ result }) {
           </div>
           <div>
             <p className="text-xs font-medium uppercase tracking-wider text-slate-900 dark:text-slate-400">Remaining Growth</p>
-            <p className="text-gradient text-6xl font-bold leading-tight drop-shadow-sm">{result.remaining_growth_percent}%</p>
+            <p className="text-gradient text-6xl font-bold leading-tight drop-shadow-sm">{result.growth_prediction.remaining_growth_percent}%</p>
           </div>
         </div>
 
@@ -77,37 +78,8 @@ export default function AnalysisSection({ result }) {
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-50 text-sm dark:bg-med-indigo/20">🎯</span>
             <h3 className="font-semibold text-slate-900 dark:text-slate-200">โอกาสเกิดความผิดปกติ</h3>
           </div>
-          <div className="space-y-4 rounded-xl border border-slate-200/60 bg-white/50 p-5 dark:border-slate-600/50 dark:bg-slate-700/30">
-            {/* Valgus */}
-            <div>
-              <div className="mb-1.5 flex justify-between text-xs font-medium">
-                <span className="text-slate-900 dark:text-slate-300">ขาฉิ่งเข้า (Valgus)</span>
-                <span className="text-slate-900 dark:text-slate-300">{result.probability.valgus_percent}%</span>
-              </div>
-              <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-600 shadow-inner">
-                <div className="h-full rounded-full bg-blue-500 transition-all duration-1000" style={{ width: `${result.probability.valgus_percent}%` }} />
-              </div>
-            </div>
-            {/* Varus */}
-            <div>
-              <div className="mb-1.5 flex justify-between text-xs font-medium">
-                <span className="text-slate-900 dark:text-slate-300">ขาโก่งออก (Varus)</span>
-                <span className="text-slate-900 dark:text-slate-300">{result.probability.varus_percent}%</span>
-              </div>
-              <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-600 shadow-inner">
-                <div className="h-full rounded-full bg-amber-500 transition-all duration-1000" style={{ width: `${result.probability.varus_percent}%` }} />
-              </div>
-            </div>
-            {/* Arrest */}
-            <div>
-              <div className="mb-1.5 flex justify-between text-xs font-medium">
-                <span className="text-slate-900 dark:text-slate-300">กระดูกหยุดโต (Growth Arrest)</span>
-                <span className="text-slate-900 dark:text-slate-300">{result.probability.arrest_percent}%</span>
-              </div>
-              <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-600 shadow-inner">
-                <div className="h-full rounded-full bg-red-500 transition-all duration-1000" style={{ width: `${result.probability.arrest_percent}%` }} />
-              </div>
-            </div>
+          <div className="rounded-xl border border-slate-200/60 bg-white/50 p-5 dark:border-slate-600/50 dark:bg-slate-700/30">
+            <ProbabilityBars probabilities={result.growth_prediction.probabilities} />
           </div>
         </div>
       </div>

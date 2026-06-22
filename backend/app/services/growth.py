@@ -44,7 +44,7 @@ def _remaining_growth(bar_area: float, age: float, gender: str) -> tuple[float, 
     return round(affected_remaining, 1), round(normal_remaining, 1)
 
 
-def _probabilities(bar_area: float, age: float, location: str) -> GrowthProbabilities:
+def _probabilities(bar_area: float, age: float, gender: str, location: str) -> GrowthProbabilities:
     """โอกาส 3 รูปแบบ (รวม = 100%) — deterministic mock
 
     - bar กว้าง → growth plate ปิดเกือบหมด → "หยุดโต" (arrest) เด่น
@@ -52,7 +52,8 @@ def _probabilities(bar_area: float, age: float, location: str) -> GrowthProbabil
       medial bar → Varus (ขาโก่งออก), lateral bar → Valgus (ขาฉิ่งเข้า)
     - เด็กเล็กยังเหลือโตมาก → แนวโน้มเอียงเด่นกว่าหยุดโต
     """
-    age_factor = 1.0 if age < 8 else 0.85 if age <= 14 else 0.6
+    maturity = _maturity_age(gender)
+    age_factor = 1.0 if age < 8 else 0.85 if age < maturity else 0.6
     arrest = _clamp(bar_area * 0.75 * (2 - age_factor), 5, 92)
     deform = 100.0 - arrest
 
@@ -92,5 +93,5 @@ def predict(bar_area: float, age: float, gender: str,
         angular_deg=[round(angular_rate * y, 1) for y in YEARS],
         remaining_growth_percent=remaining,
         normal_remaining_percent=normal_remaining,
-        probabilities=_probabilities(bar_area, age, location),
+        probabilities=_probabilities(bar_area, age, gender, location),
     )
