@@ -67,7 +67,7 @@ export default function GrowthPredictionSection({ prediction }) {
       {/* Probability bars */}
       <div className="mt-6">
         <div className="mb-3 flex items-center gap-2">
-          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-50 text-sm dark:bg-amber-500/20">📊</span>
+          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-50 text-sm dark:bg-indigo-500/20">📊</span>
           <div>
             <h4 className="font-semibold text-slate-900 dark:text-slate-200">Deformity Probability</h4>
             <p className="text-xs text-slate-900 dark:text-slate-400">Probability split across 3 outcomes (total 100%)</p>

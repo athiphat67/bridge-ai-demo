@@ -4,7 +4,7 @@
     {
       "id": "case_normal",
       "filename": "case_normal_age11.png",
-      "display_name": "เด็กหญิง 11 ปี – Growth Plate ปกติ (ไม่พบ bar)",
+      "display_name": "Female, 11 yr — Normal Growth Plate",
       "clinical": {
         "age_years": 11,
         "bone_age_years": 11,
@@ -28,7 +28,7 @@
     {
       "id": "case_low",
       "filename": "case_low_sh1_age14_lateral.png",
-      "display_name": "เด็กชาย 14 ปี – SH Type I Lateral (เสี่ยงต่ำ)",
+      "display_name": "Male, 14 yr — SH Type I Lateral",
       "clinical": {
         "age_years": 14,
         "bone_age_years": 14.5,
@@ -52,7 +52,7 @@
     {
       "id": "case_medium",
       "filename": "case_medium_sh3_age11_lateral.png",
-      "display_name": "เด็กหญิง 11 ปี – SH Type III Lateral Tibia (เสี่ยงกลาง)",
+      "display_name": "Female, 11 yr — SH Type III Lateral Tibia",
       "clinical": {
         "age_years": 11,
         "bone_age_years": 10.5,
@@ -76,7 +76,7 @@
     {
       "id": "case_high",
       "filename": "case_high_sh4_age13_medial.png",
-      "display_name": "เด็กชาย 13 ปี – SH Type IV Medial Tibia (เสี่ยงสูง)",
+      "display_name": "Male, 13 yr — SH Type IV Medial Tibia",
       "clinical": {
         "age_years": 13,
         "bone_age_years": 12.5,

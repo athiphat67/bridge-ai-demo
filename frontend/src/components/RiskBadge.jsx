@@ -11,8 +11,11 @@ const EN = { Low: 'Low Risk', Medium: 'Moderate Risk', High: 'High Risk' }
 
 export default function RiskBadge({ level }) {
   return (
-    <span className={`inline-flex items-center gap-2 rounded-xl border px-5 py-2 text-lg font-semibold ${LIGHT[level]} ${DARK[level]}`}>
-      <span className="text-xl">{ICON[level]}</span>
+    <span
+      className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-2 text-sm font-bold whitespace-nowrap ${LIGHT[level]} ${DARK[level]}`}
+      style={{ minWidth: '120px', justifyContent: 'center', flexShrink: 0 }}
+    >
+      <span className="text-base leading-none">{ICON[level]}</span>
       {EN[level]}
     </span>
   )

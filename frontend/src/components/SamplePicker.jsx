@@ -22,7 +22,7 @@ export default function SamplePicker({ samples, selectedId, onSelect }) {
           key={s.id}
           type="button"
           onClick={() => onSelect(s.id)}
-          className={`group flex w-full items-center gap-3 rounded-xl p-3 text-left text-sm transition-all duration-300 ${
+          className={`group flex w-full items-center gap-3 rounded-xl p-3 text-sm transition-all duration-300 ${
             selectedId === s.id
               ? 'border border-med-blue/40 bg-blue-50 shadow-md dark:border-blue-500 dark:bg-blue-950/50 dark:shadow-glow-blue'
               : 'border border-slate-100 bg-white hover:border-slate-200 hover:shadow-card dark:border-slate-600 dark:bg-slate-700/50 dark:hover:border-slate-500 dark:hover:bg-slate-700'
