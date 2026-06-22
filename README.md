@@ -57,6 +57,30 @@ docker-compose up
 - Backend API: http://localhost:8000  (docs: `/docs`)
 - Frontend: http://localhost:5173
 
+## Deploy to Vercel
+
+This repo is a monorepo, so the simplest full deploy on Vercel is two projects:
+
+1. `frontend/` as the React app
+2. `backend/` as the FastAPI API
+
+Frontend project:
+
+1. Import the repo into Vercel.
+2. Set `Root Directory` to `frontend`.
+3. Keep the default build command: `npm run build`.
+4. Keep the output directory: `dist`.
+5. Set `VITE_API_URL` to the backend deployment URL.
+
+Backend project:
+
+1. Create a second Vercel project from the same repo.
+2. Set `Root Directory` to `backend`.
+3. Let Vercel detect FastAPI.
+4. Keep the default Python/uvicorn settings unless Vercel asks for overrides.
+
+If you are only a contributor, you can still deploy your own Vercel projects as long as your Git account can access the repo. If you want to deploy into someone else’s existing Vercel project, they need to add you to that Vercel team/project first.
+
 ## Development (Native)
 
 ### Backend

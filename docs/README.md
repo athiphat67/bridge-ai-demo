@@ -21,3 +21,4 @@ docs/
 - **proposal/** — อ่านก่อนเขียน/แก้ proposal หรือ presentation เพื่อให้ตรงรูปแบบที่กรรมการกำหนด
 - **team-notes/** — อ่านถ้าต้องแก้สูตร mock scoring/growth ใน backend, เพื่อเข้าใจที่มาของตัวเลข
   (ดู `KneeGrowth-AI.pdf` ประกอบ docstring ใน `backend/app/services/`)
+- **deploy.md** — วิธีรัน local และ deploy บน Vercel สำหรับ frontend/backend
