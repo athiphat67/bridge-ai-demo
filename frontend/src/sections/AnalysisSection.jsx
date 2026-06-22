@@ -78,14 +78,14 @@ export default function AnalysisSection({ result, clinical }) {
           </div>
         </div>
 
-        {/* Salter-Harris + BMI */}
+        {/* Salter-Harris Type + BMI */}
         <div className="grid grid-cols-2 gap-3" style={{ flexShrink: 0 }}>
           <div className="rounded-xl border border-slate-200/60 bg-white/60 p-3 dark:border-slate-600/50 dark:bg-slate-700/30" style={{ minHeight: '92px' }}>
             <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
               Salter-Harris
             </p>
             <p className="mt-1 text-2xl font-extrabold text-slate-800 dark:text-slate-100">
-              Grade {result.salter_harris}
+              Type {result.salter_harris}
             </p>
           </div>
           <div className="rounded-xl border border-slate-200/60 bg-white/60 p-3 dark:border-slate-600/50 dark:bg-slate-700/30" style={{ minHeight: '92px' }}>

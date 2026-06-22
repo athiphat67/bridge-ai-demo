@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-const API_ORIGIN = import.meta.env.VITE_API_URL || 'https://bridge-ai-demo-jtjd.vercel.app'
+const API_ORIGIN = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? '' : 'https://bridge-ai-demo-jtjd.vercel.app')
 const api = axios.create({
-  baseURL: `${API_ORIGIN.replace(/\/$/, '')}/api`,
+  baseURL: API_ORIGIN ? `${API_ORIGIN.replace(/\/$/, '')}/api` : '/api',
 }) // local dev uses Vite proxy; production falls back to the deployed backend
 
 export async function getSamples() {
