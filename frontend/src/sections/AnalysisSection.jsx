@@ -1,6 +1,5 @@
 import BoneDirectionGraphic from '../components/BoneDirectionGraphic'
 import FactorList from '../components/FactorList'
-import ProbabilityBars from '../components/ProbabilityBars'
 import RiskBadge from '../components/RiskBadge'
 import XrayOverlay from '../components/XrayOverlay'
 import GrowthPredictionSection from './GrowthPredictionSection'
@@ -11,47 +10,96 @@ const RECOMMENDATION = {
   Low: 'Low-grade growth plate damage with a favourable prognosis. Routine follow-up every 6–12 months is advised to monitor for changes.',
 }
 
-export default function AnalysisSection({ result, clinical, usingSample }) {
-  const bmi = (!usingSample && clinical?.weight_kg && clinical?.height_cm)
-    ? (clinical.weight_kg / Math.pow(clinical.height_cm / 100, 2)).toFixed(1)
+const RISK_COLOR = {
+  High:   { bar: 'bg-red-500',    text: 'text-red-500 dark:text-red-400',    bg: 'bg-red-50 dark:bg-red-500/10',    border: 'border-red-200 dark:border-red-500/30' },
+  Medium: { bar: 'bg-amber-500',  text: 'text-amber-500 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-500/10', border: 'border-amber-200 dark:border-amber-500/30' },
+  Low:    { bar: 'bg-emerald-500', text: 'text-emerald-500 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-500/10', border: 'border-emerald-200 dark:border-emerald-500/30' },
+}
+
+export default function AnalysisSection({ result, clinical }) {
+  const src = result.clinical_used || clinical
+  const bmi = (src?.weight_kg && src?.height_cm)
+    ? (src.weight_kg / Math.pow(src.height_cm / 100, 2)).toFixed(1)
     : null
+
+  const rc = RISK_COLOR[result.risk_level] || RISK_COLOR.Low
 
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
       {/* ── ROW 1: Diagnosis ── */}
 
       {/* 1. X-Ray Image */}
-      <div className="glass flex items-center justify-center rounded-2xl p-6 md:col-span-6 xl:col-span-4">
+      <div className="glass flex items-center justify-center rounded-2xl p-4 md:col-span-6 xl:col-span-4">
         <XrayOverlay image={result.overlay_image} />
       </div>
 
-      {/* 2. Hero Metrics */}
-      <div className="glass flex flex-col justify-center space-y-6 rounded-2xl p-6 md:col-span-6 xl:col-span-4 bg-gradient-to-br from-slate-50/50 to-slate-100/30 dark:from-slate-800/40 dark:to-slate-800/10 shadow-sm border border-slate-100 dark:border-slate-700/50">
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <p className="text-xs font-medium uppercase tracking-wider text-slate-900 dark:text-slate-400">Damage</p>
-            <p className="text-gradient-red text-6xl font-bold leading-tight drop-shadow-sm">{result.damage_percent}%</p>
+      {/* 2. Hero Metrics — redesigned */}
+      <div className="glass flex flex-col gap-4 rounded-2xl p-5 md:col-span-6 xl:col-span-4">
+
+        {/* Damage bar row */}
+        <div
+          className={`rounded-xl border p-4 ${rc.bg} ${rc.border}`}
+          style={{ flexShrink: 0, minHeight: '110px' }}
+        >
+          <p className="mb-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">
+            Physeal Plate Damage
+          </p>
+          <div className="flex items-center justify-between gap-3">
+            <span className={`text-5xl font-extrabold leading-none tabular-nums ${rc.text}`}>
+              {result.damage_percent}%
+            </span>
+            <RiskBadge level={result.risk_level} />
           </div>
-          <div>
-            <p className="text-xs font-medium uppercase tracking-wider text-slate-900 dark:text-slate-400">Remaining Growth</p>
-            <p className="text-gradient text-6xl font-bold leading-tight drop-shadow-sm">{result.growth_prediction.remaining_growth_percent}%</p>
+          {/* Mini progress bar */}
+          <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-black/10 dark:bg-white/10">
+            <div
+              className={`h-full rounded-full transition-all duration-700 ${rc.bar}`}
+              style={{ width: `${Math.min(100, result.damage_percent)}%` }}
+            />
           </div>
         </div>
 
-        <div>
-          <RiskBadge level={result.risk_level} />
+        {/* Remaining Growth */}
+        <div className="rounded-xl border border-teal-200/60 bg-teal-50/60 p-4 dark:border-teal-500/20 dark:bg-teal-500/5" style={{ flexShrink: 0 }}>
+          <p className="mb-1 text-[11px] font-semibold uppercase tracking-widest text-teal-600 dark:text-teal-400">
+            Remaining Growth Potential
+          </p>
+          <div className="flex items-end gap-2">
+            <span className="text-4xl font-extrabold leading-none tabular-nums text-teal-600 dark:text-teal-400">
+              {result.growth_prediction.remaining_growth_percent}%
+            </span>
+            <span className="mb-1 text-sm text-teal-600/70 dark:text-teal-400/70">of normal</span>
+          </div>
+          <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-black/10 dark:bg-white/10">
+            <div
+              className="h-full rounded-full bg-teal-500 transition-all duration-700"
+              style={{ width: `${Math.min(100, result.growth_prediction.remaining_growth_percent)}%` }}
+            />
+          </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          <div className="rounded-lg border border-slate-200/60 bg-white/50 p-4 dark:border-slate-600/50 dark:bg-slate-700/30">
-            <span className="text-xs text-slate-900 dark:text-slate-400">Salter-Harris Classification</span>
-            <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">Grade {result.salter_harris}</p>
+        {/* Salter-Harris + BMI */}
+        <div className="grid grid-cols-2 gap-3" style={{ flexShrink: 0 }}>
+          <div className="rounded-xl border border-slate-200/60 bg-white/60 p-3 dark:border-slate-600/50 dark:bg-slate-700/30" style={{ minHeight: '92px' }}>
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+              Salter-Harris
+            </p>
+            <p className="mt-1 text-2xl font-extrabold text-slate-800 dark:text-slate-100">
+              Grade {result.salter_harris}
+            </p>
           </div>
-          <div className="rounded-lg border border-slate-200/60 bg-white/50 p-4 dark:border-slate-600/50 dark:bg-slate-700/30">
-            <span className="text-xs text-slate-900 dark:text-slate-400">BMI</span>
-            <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
+          <div className="rounded-xl border border-slate-200/60 bg-white/60 p-3 dark:border-slate-600/50 dark:bg-slate-700/30" style={{ minHeight: '92px' }}>
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+              BMI
+            </p>
+            <p className="mt-1 text-2xl font-extrabold text-slate-800 dark:text-slate-100">
               {bmi !== null ? bmi : '—'}
             </p>
+            {bmi !== null && (
+              <p className="text-[10px] text-slate-400">
+                {bmi < 18.5 ? 'Underweight' : bmi < 25 ? 'Normal' : bmi < 30 ? 'Overweight' : 'Obese'}
+              </p>
+            )}
           </div>
         </div>
       </div>
@@ -66,40 +114,29 @@ export default function AnalysisSection({ result, clinical, usingSample }) {
             <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-100 text-lg shadow-sm dark:bg-med-teal/40">💡</span>
             <h3 className="text-lg font-semibold text-teal-950 dark:text-teal-100">Clinical Recommendation</h3>
           </div>
-          <div className="flex-1 rounded-xl bg-white/70 p-5 text-base leading-relaxed text-slate-800 shadow-sm backdrop-blur-md dark:bg-slate-900/40 dark:text-slate-200">
+          <div className="flex-1 rounded-xl bg-white/70 p-5 text-sm leading-relaxed text-slate-800 shadow-sm backdrop-blur-md dark:bg-slate-900/40 dark:text-slate-200">
             {RECOMMENDATION[result.risk_level] || RECOMMENDATION.Low}
           </div>
         </div>
       </div>
 
-      {/* ── ROW 2: Prediction & Deformity ── */}
+      {/* ── ROW 2: Deformity ── */}
 
-      {/* 4. Deformity & Probabilities */}
-      <div className="glass flex flex-col space-y-6 rounded-2xl p-6 md:col-span-6 xl:col-span-6">
-        {/* Deformity */}
-        <div className="group relative overflow-hidden rounded-xl border border-slate-200/60 bg-white/50 p-4 dark:border-slate-600/50 dark:bg-slate-700/30">
-          <span className="text-xs text-slate-900 dark:text-slate-400">Deformity Direction</span>
-          <div className="mt-4 flex w-full justify-center">
-            <BoneDirectionGraphic direction={result.bend_direction} />
-          </div>
+      {/* 4. Deformity Direction */}
+      <div className="glass flex flex-col rounded-2xl p-6 md:col-span-6 xl:col-span-6">
+        <div className="mb-3 flex items-center gap-2">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-50 text-sm dark:bg-amber-500/20">🦴</span>
+          <h3 className="font-semibold text-slate-900 dark:text-slate-200">Deformity Direction</h3>
         </div>
-
-        {/* Probability Chart */}
-        <div className="flex-1">
-          <div className="mb-3 flex items-center gap-2">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-50 text-sm dark:bg-med-indigo/20">🎯</span>
-            <h3 className="font-semibold text-slate-900 dark:text-slate-200">Deformity Probability</h3>
-          </div>
-          <div className="rounded-xl border border-slate-200/60 bg-white/50 p-5 dark:border-slate-600/50 dark:bg-slate-700/30">
-            <ProbabilityBars probabilities={result.growth_prediction.probabilities} />
-          </div>
+        <div className="flex-1 flex items-center justify-center rounded-xl border border-slate-200/60 bg-white/50 p-4 dark:border-slate-600/50 dark:bg-slate-700/30">
+          <BoneDirectionGraphic direction={result.bend_direction} />
         </div>
       </div>
 
-      {/* 5. Factors */}
+      {/* 5. Risk Factors */}
       <div className="glass flex flex-col rounded-2xl p-6 md:col-span-6 xl:col-span-6">
         <div className="mb-5 flex items-center gap-3">
-          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-lg shadow-sm dark:bg-med-blue/20">📊</span>
+          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-lg shadow-sm dark:bg-med-blue/20">📋</span>
           <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-200">Risk Factors (Explainability)</h3>
         </div>
         <div className="flex-1 flex flex-col">

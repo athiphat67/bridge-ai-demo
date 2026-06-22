@@ -51,6 +51,7 @@ class AnalysisResult(BaseModel):
     bend_direction: Literal["Varus", "Valgus"]
     growth_prediction: GrowthPrediction
     factors: list[Factor]
+    clinical_used: ClinicalInput       # actual clinical data used (for BMI display)
 
 
 class SampleCase(BaseModel):

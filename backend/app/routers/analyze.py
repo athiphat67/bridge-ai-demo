@@ -76,4 +76,5 @@ async def analyze(
         growth_prediction=growth,
         factors=scoring.build_factors(bar_area, clinical.age_years,
                                       clinical.location, clinical.medical_history),
+        clinical_used=clinical,
     )

@@ -15,8 +15,8 @@ def risk_score(bar_area: float, age: float, location: str,
                medical_history: list[str]) -> float:
     """0–100 — เด็กเล็ก + medial + bar กว้าง + ใช้ steroid = เสี่ยงสูง"""
     score = bar_area
-    score += 25 if age < 8 else 12 if age <= 14 else 3        # ยิ่งเด็ก ยิ่งเสี่ยง
-    score += 15 if location == "medial" else 8                 # medial เสี่ยงกว่า
+    score += 10 if age < 8 else 5 if age <= 14 else 1        # ยิ่งเด็ก ยิ่งเสี่ยง
+    score += 8 if location == "medial" else 3                 # medial เสี่ยงกว่า
     if any("cortico" in m.lower() or "steroid" in m.lower()
            for m in medical_history):
         score += 10                                            # negative bias ต่อ osteogenesis
