@@ -24,7 +24,7 @@ risk scoring, developed for the Medical AI Awards submission.
 ## Project Structure
 
 ```
-brige ai/
+bridge-ai/
 ├── backend/        # FastAPI mock API — ดู backend/README.md
 ├── frontend/        # React + Vite dashboard — ดู frontend/README.md
 ├── data/             # X-ray ดิบ + ที่เตรียมแล้วจาก Namthip — ดู data/README.md
