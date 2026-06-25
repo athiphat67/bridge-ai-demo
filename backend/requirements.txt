@@ -1,6 +1,7 @@
-fastapi>=0.110
-uvicorn>=0.27
-pydantic>=2.6
-python-multipart>=0.0.9
-pillow>=11.0
-numpy>=2.2
+fastapi==0.138.0
+uvicorn==0.49.0
+pydantic==2.13.4
+python-multipart==0.0.32
+pillow==12.2.0
+numpy==2.5.0
+opencv-python-headless==4.13.0.92

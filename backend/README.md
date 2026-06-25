@@ -1,7 +1,7 @@
 # `backend/` — FastAPI mock API
 
 API ตัวเดียว `POST /api/analyze` ที่คืนผลครบ 3 ส่วนของ demo (ภาพ overlay, damage% + risk badge,
-growth prediction) โดยอ่านค่าจาก `app/data/metadata.json` แทนการรันโมเดล ML จริง
+growth prediction) รองรับ sample metadata เดิมและ real C1+C2 inference
 ดูเหตุผลการออกแบบเต็มๆ ที่ [`../ARCHITECTURE.md`](../ARCHITECTURE.md)
 
 ## โครงสร้าง
@@ -18,7 +18,9 @@ app/
 │   ├── metadata.py       # โหลด/lookup metadata.json
 │   ├── scoring.py         # damage% → risk score/level, Salter-Harris, varus/valgus
 │   ├── growth.py           # คำนวณกราฟ growth prediction (1/3/5 ปี)
-│   └── visualize.py        # วาด bounding box + heatmap ลงภาพ → base64 PNG
+│   ├── visualize.py        # วาด bounding box + heatmap ของ sample → base64 PNG
+│   └── vision.py           # C1+C2 ONNX inference สำหรับ real mode
+├── models/                 # C1/C2 ONNX weights พร้อม deploy
 └── data/
     ├── metadata.json     # เคสตัวอย่าง (สร้างโดย ../../scripts/build_demo_data.py — ดู DATA_CONTRACT.md)
     └── samples/           # ไฟล์ภาพของแต่ละเคส
@@ -28,13 +30,21 @@ app/
 
 ```bash
 cd backend
+python3.12 -m venv .venv
+.venv/bin/pip install -r requirements.txt
 .venv/bin/uvicorn app.main:app --reload --port 8000
 ```
 
-(ครั้งแรก ถ้ายังไม่มี `.venv`: `python3 -m venv .venv && .venv/bin/pip install -r requirements.txt`)
-
 - API docs (Swagger): http://localhost:8000/docs
 - Health check: http://localhost:8000/api/health
+
+Real mode โหลด C1/C2 ONNX จาก `app/models/` โดยตรง ไม่ต้องมี vision repo หรือ
+PyTorch ตอน runtime ภาพอัปโหลดจำกัด 4 MB เพื่ออยู่ใต้ request limit ของ Vercel
+
+## Deploy to Vercel
+
+สร้าง Vercel project โดยตั้ง Root Directory เป็น `backend` ไม่ต้องตั้ง build
+command เพิ่ม ไฟล์ `api/index.py`, `.python-version`, และ `vercel.json` เตรียมไว้แล้ว
 
 ## แก้ tuning โดยไม่ต้องแก้ logic
 
