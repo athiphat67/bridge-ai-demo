@@ -52,6 +52,9 @@ class AnalysisResult(BaseModel):
     growth_prediction: GrowthPrediction
     factors: list[Factor]
     clinical_used: ClinicalInput       # actual clinical data used (for BMI display)
+    analysis_mode: Literal["sample", "real"] = "sample"
+    metric_label: str = "Physeal Plate Damage"
+    model_note: Optional[str] = None
 
 
 class SampleCase(BaseModel):

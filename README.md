@@ -51,11 +51,19 @@ brige ai/
 ## Quick Start (Docker)
 
 ```bash
-docker-compose up
+npm run up
 ```
 
 - Backend API: http://localhost:8000  (docs: `/docs`)
 - Frontend: http://localhost:5173
+
+ถ้าต้องการ rebuild ใหม่ทั้งชุด:
+
+```bash
+npm run up:build
+```
+
+`Ctrl+C` จะหยุด `docker compose up` ให้อัตโนมัติ ไม่ต้องสั่ง `down` ทุกครั้ง
 
 ## Deploy to Vercel
 
@@ -77,7 +85,8 @@ Backend project:
 1. Create a second Vercel project from the same repo.
 2. Set `Root Directory` to `backend`.
 3. Let Vercel detect FastAPI.
-4. Keep the default Python/uvicorn settings unless Vercel asks for overrides.
+4. No build command is required; `api/index.py`, `.python-version`, and
+   `vercel.json` are included.
 
 If you are only a contributor, you can still deploy your own Vercel projects as long as your Git account can access the repo. If you want to deploy into someone else’s existing Vercel project, they need to add you to that Vercel team/project first.
 
@@ -87,10 +96,14 @@ If you are only a contributor, you can still deploy your own Vercel projects as 
 
 ```bash
 cd backend
-python3 -m venv .venv
+python3.12 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 .venv/bin/uvicorn app.main:app --reload   # → http://localhost:8000
 ```
+
+Real model mode is self-contained. C1/C2 weights live in
+`backend/app/models/`; `bridge-ai-vision` is not required at runtime.
+The deployment runtime uses ONNX models through OpenCV, without PyTorch.
 
 ### Frontend
 
@@ -105,7 +118,8 @@ npm run dev      # Vite → http://localhost:5173
 - `GET  /api/health`  - Health check
 - `GET  /api/samples` - รายการเคสตัวอย่าง (Normal / Low / Medium / High)
 - `POST /api/analyze` - วิเคราะห์ X-ray + clinical input → คืน overlay + damage% + risk + growth prediction
-  - รับได้ 2 แบบ: form `sample_id` (เลือกเคสตัวอย่าง) **หรือ** `image` + ฟิลด์ clinical (อัปโหลดเอง)
+  - Sample: form `mode=sample` + `sample_id`
+  - Real: form `mode=real` + `image` (ไม่เกิน 4 MB) + ฟิลด์ clinical
 
 ## Architecture Decisions
 

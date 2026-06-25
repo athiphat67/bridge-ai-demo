@@ -41,3 +41,11 @@ dev server proxy `/api/*` ไปที่ FastAPI `:8000` ให้อัตโ�
 npm run build    # → dist/
 npm run preview  # serve dist/ ทดสอบ production build
 ```
+
+## Deploy to Vercel
+
+ตั้ง Root Directory เป็น `frontend` และเพิ่ม environment variable:
+
+```text
+VITE_API_URL=https://<backend-project>.vercel.app
+```

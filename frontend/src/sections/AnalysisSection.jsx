@@ -42,7 +42,7 @@ export default function AnalysisSection({ result, clinical }) {
           style={{ flexShrink: 0, minHeight: '110px' }}
         >
           <p className="mb-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">
-            Physeal Plate Damage
+            {result.metric_label || 'Physeal Plate Damage'}
           </p>
           <div className="flex items-center justify-between gap-3">
             <span className={`text-5xl font-extrabold leading-none tabular-nums ${rc.text}`}>
@@ -58,6 +58,11 @@ export default function AnalysisSection({ result, clinical }) {
             />
           </div>
         </div>
+        {result.model_note && (
+          <p className="rounded-lg bg-amber-50 p-2 text-xs leading-relaxed text-amber-800 dark:bg-amber-500/10 dark:text-amber-300">
+            {result.model_note}
+          </p>
+        )}
 
         {/* Remaining Growth */}
         <div className="rounded-xl border border-teal-200/60 bg-teal-50/60 p-4 dark:border-teal-500/20 dark:bg-teal-500/5" style={{ flexShrink: 0 }}>
