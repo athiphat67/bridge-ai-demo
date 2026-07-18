@@ -94,9 +94,12 @@ function RemainingGauge({ value, vsNormal }) {
                 strokeDasharray={`${dash} ${c}`}
                 className="transition-all duration-700" />
       </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-xl font-bold text-teal-600 dark:text-med-teal">{value}%</span>
-        <span className="text-[10px] text-slate-500 dark:text-slate-400">left</span>
+      <div className="absolute inset-0 flex flex-col items-center justify-center pt-0.5">
+        <div className="flex items-baseline translate-x-[2px]">
+          <span className="text-xl font-bold tracking-tight text-teal-600 dark:text-med-teal">{value}</span>
+          <span className="text-[11px] font-bold text-teal-600 dark:text-med-teal">%</span>
+        </div>
+        <span className="text-[10px] text-slate-500 dark:text-slate-400 leading-none mt-0.5">left</span>
       </div>
     </div>
   )
