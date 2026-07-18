@@ -44,11 +44,13 @@ export default function AnalysisSection({ result, clinical }) {
           <p className="mb-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">
             {result.metric_label || 'Physeal Plate Damage'}
           </p>
-          <div className="flex items-center justify-between gap-3">
-            <span className={`text-5xl font-extrabold leading-none tabular-nums ${rc.text}`}>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <span className={`text-4xl xl:text-5xl font-extrabold leading-none tabular-nums ${rc.text}`}>
               {result.damage_percent}%
             </span>
-            <RiskBadge level={result.risk_level} />
+            <div className="shrink-0">
+              <RiskBadge level={result.risk_level} />
+            </div>
           </div>
           {/* Mini progress bar */}
           <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-black/10 dark:bg-white/10">
@@ -69,11 +71,11 @@ export default function AnalysisSection({ result, clinical }) {
           <p className="mb-1 text-[11px] font-semibold uppercase tracking-widest text-teal-600 dark:text-teal-400">
             Remaining Growth Potential
           </p>
-          <div className="flex items-end gap-2">
+          <div className="flex flex-wrap items-baseline gap-2">
             <span className="text-4xl font-extrabold leading-none tabular-nums text-teal-600 dark:text-teal-400">
               {result.growth_prediction.remaining_growth_percent}%
             </span>
-            <span className="mb-1 text-sm text-teal-600/70 dark:text-teal-400/70">of normal</span>
+            <span className="text-sm text-teal-600/70 dark:text-teal-400/70">of normal</span>
           </div>
           <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-black/10 dark:bg-white/10">
             <div
@@ -89,7 +91,7 @@ export default function AnalysisSection({ result, clinical }) {
             <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
               Salter-Harris
             </p>
-            <p className="mt-1 text-2xl font-extrabold text-slate-800 dark:text-slate-100">
+            <p className="mt-1 text-xl xl:text-2xl font-extrabold text-slate-800 dark:text-slate-100 whitespace-nowrap">
               Type {result.salter_harris}
             </p>
           </div>
@@ -115,9 +117,9 @@ export default function AnalysisSection({ result, clinical }) {
           <svg className="h-32 w-32 text-teal-600 dark:text-teal-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" /></svg>
         </div>
         <div className="relative z-10 flex-1 flex flex-col">
-          <div className="mb-4 flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-100 text-lg shadow-sm dark:bg-med-teal/40">💡</span>
-            <h3 className="text-lg font-semibold text-teal-950 dark:text-teal-100">Clinical Recommendation</h3>
+          <div className="mb-4 flex items-start gap-3">
+            <span className="shrink-0 flex h-10 w-10 items-center justify-center rounded-xl bg-teal-100 text-lg shadow-sm dark:bg-med-teal/40 mt-1">💡</span>
+            <h3 className="text-lg font-semibold text-teal-950 dark:text-teal-100 leading-snug pt-1">Clinical Recommendation</h3>
           </div>
           <div className="flex-1 rounded-xl bg-white/70 p-5 text-sm leading-relaxed text-slate-800 shadow-sm backdrop-blur-md dark:bg-slate-900/40 dark:text-slate-200">
             {RECOMMENDATION[result.risk_level] || RECOMMENDATION.Low}
