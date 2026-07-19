@@ -16,7 +16,7 @@ demo app นี้โดยตรง และใช้ `backend/.venv` เด�
 ### รัน
 
 ```bash
-cd "brige ai"
+cd bridge-ai
 backend/.venv/bin/python scripts/build_demo_data.py
 ```
 
