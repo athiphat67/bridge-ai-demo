@@ -1,126 +1,95 @@
-# Bridge AI Demo
+# BRIDGE-AI — Pediatric Knee Growth-Plate Risk Prototype
 
-A Medical AI demo application for pediatric knee growth-plate (physis) X-ray analysis with
-risk scoring, developed for the Medical AI Awards submission.
+**An AI-assisted prototype that reads a child's knee X-ray, finds the growth plate, flags likely fractures, and turns them into a risk summary a clinician can explain to a family.**
 
-> **Note:** นี่คือ **mock demo facade** สำหรับอัดวิดีโอ/แคปหน้าจอไปแปะ Proposal (ส่ง 26 มิ.ย.)
-> ไม่มีการเทรนโมเดลจริง — ผลลัพธ์ขับด้วย label จากภาพ X-ray จริงที่ทีมเตรียมให้
-> ดู [`ARCHITECTURE.md`](ARCHITECTURE.md) + [`DATA_CONTRACT.md`](DATA_CONTRACT.md)
+![Selected](https://img.shields.io/badge/BRIDGE--AI_Summit_2026-Selected_exhibitor_(90_of_230%2B)-success)
+![Host](https://img.shields.io/badge/Chulalongkorn-Faculty_of_Medicine-B71C1C)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
+![React](https://img.shields.io/badge/React_+_Vite-61DAFB?logo=react&logoColor=black)
+![ONNX](https://img.shields.io/badge/ONNX-OpenCV_DNN-005CED?logo=onnx&logoColor=white)
 
-## Features
+> **Role:** Tech Lead, Data Scientist & AI Engineer (team of 4) · **When:** Jun – Jul 2026
+> ⚠️ Research prototype for a competition. **Not a medical device** and not for clinical decisions.
 
-- เลือกเคสตัวอย่าง X-ray (Normal / Low / Medium / High risk) หรืออัปโหลดเอง + กรอก clinical input
-- โชว์ Bounding Box / Heatmap ตรง Growth Plate + Key Metric `Physeal Plate Damage = XX%`
-- Risk badge (Low / Medium / High)
-- พาร์ท Growth Prediction: กราฟแนวโน้ม 1 / 3 / 5 ปี (leg-length difference + มุมโก่ง)
-- Thai language UI
+---
 
-## Tech Stack
+## The problem
 
-- **Frontend**: React + Vite + Tailwind CSS
-- **Backend**: FastAPI + Python (Pillow + NumPy สำหรับวาดภาพ)
-- **Deployment**: Docker Compose
+When a child injures the growth plate (physis) near the knee, the first X-ray shows the damage. It does **not** show what happens later: the bone may stop growing, bend (varus/valgus), or end up shorter than the other leg. Today the answer comes from months of follow-up and the doctor's judgement. Families meanwhile have little to plan around.
 
-## Project Structure
+**Goal:** give the doctor an early, explainable risk estimate and a clear visual to share with the family. Clinical follow-up stays in charge.
+
+## How it works
 
 ```
-brige ai/
-├── backend/        # FastAPI mock API — ดู backend/README.md
-├── frontend/        # React + Vite dashboard — ดู frontend/README.md
-├── data/             # X-ray ดิบ + ที่เตรียมแล้วจาก Namthip — ดู data/README.md
-├── scripts/           # build_demo_data.py — แปลง data/ → backend/app/data/ — ดู scripts/README.md
-├── docs/               # เอกสารอ้างอิง: proposal/ + team-notes/ — ดู docs/README.md
-├── ARCHITECTURE.md      # การออกแบบระบบ (v2)
-├── DATA_CONTRACT.md       # รูปแบบไฟล์ data ที่ backend อ่าน
-├── REQUIREMENTS_UNCLEAR.md # คำถามช่วงต้นโปรเจกต์ (ส่วนใหญ่ตอบแล้วใน ARCHITECTURE.md v2)
-├── docker-compose.yml
-└── README.md
+X-ray upload + clinical inputs (age, sex, injury location)
+  ▼ C1  YOLOv8n growth-plate detector (ONNX)   → bounding box on the physis
+  ▼ C2  ResNet-18 fracture classifier (ONNX)    → fracture / no fracture + confidence
+  ▼ Rule-based scoring                            → damage %, Low / Medium / High risk,
+                                                    1 / 3 / 5-year growth outlook
+  ▼ React dashboard                               → overlay + heatmap + risk badge + charts (Thai UI)
 ```
 
-แต่ละโฟลเดอร์หลักมี `README.md` อธิบายไฟล์ข้างในและวิธีใช้ของตัวเอง — เริ่มอ่านจากที่นั่นถ้าจะแก้ส่วนนั้น
+- **Models run without PyTorch.** Both networks are exported to ONNX and served via OpenCV DNN ([`backend/app/services/vision.py`](backend/app/services/vision.py)), so the API stays small enough for serverless hosting.
+- **Scoring is transparent on purpose.** Risk and growth outlook come from explicit formulas ([`scoring.py`](backend/app/services/scoring.py), [`growth.py`](backend/app/services/growth.py)), not a black box. A clinician can see why a case is "High".
 
-## Current Status
+## Results
 
-| ส่วน | สถานะ |
-|------|-------|
-| Backend (FastAPI mock: scoring / growth / visualize) | ✅ ทำงานครบ |
-| Frontend (Dashboard + 3 ส่วนผลลัพธ์ + กราฟ) | ✅ ทำงานครบ |
-| ภาพ X-ray จริงจากทีม (Namthip) | ✅ รวมเข้า demo แล้ว — 4 เคส (Normal/Low/Medium/High) |
-| Polish UI + อัดวิดีโอ | 🔜 |
+The models were trained in a separate (private) training repo and documented in a model card. Results use 5-fold cross-validation:
 
-## Quick Start (Docker)
+| Component | Metric | Result | Baseline |
+|---|---|---|---|
+| C1 growth-plate detector (YOLOv8n) | mAP@0.5 | **0.928** | — |
+| C2 fracture classifier (ResNet-18) | Accuracy | **0.902** | 0.804 |
+| C2 fracture classifier | Fracture recall | 0.67 | — |
+
+**Read with care:** the classifier saw only **55 X-rays (18 fractures)**. A recall of 0.67 means about 1 in 3 fractures is missed. That is the main reason this stays a prototype, and more labelled data is the first next step.
+
+## My role
+
+- Led research and system design: framed the clinical problem, chose the two-stage detect → classify design, and defined the scoring outputs.
+- Trained the growth-plate detector and the fracture classifier, and wrote the model card with the cross-validation results.
+
+## Run it
+
+**Docker (one command):**
 
 ```bash
-npm run up
+npm run up          # backend → http://localhost:8000/docs · frontend → http://localhost:5173
+npm run up:build    # rebuild images
 ```
 
-- Backend API: http://localhost:8000  (docs: `/docs`)
-- Frontend: http://localhost:5173
-
-ถ้าต้องการ rebuild ใหม่ทั้งชุด:
+**Native:**
 
 ```bash
-npm run up:build
+# backend
+cd backend && python3.12 -m venv .venv && .venv/bin/pip install -r requirements.txt
+.venv/bin/uvicorn app.main:app --reload
+
+# frontend (new terminal)
+cd frontend && npm install && npm run dev
 ```
 
-`Ctrl+C` จะหยุด `docker compose up` ให้อัตโนมัติ ไม่ต้องสั่ง `down` ทุกครั้ง
+### API
 
-## Deploy to Vercel
+| Method | Path | Purpose |
+|---|---|---|
+| `GET` | `/api/health` | Health check |
+| `GET` | `/api/samples` | Sample cases (Normal / Low / Medium / High) |
+| `POST` | `/api/analyze` | X-ray + clinical inputs → overlay, damage %, risk level, growth outlook. `mode=sample` + `sample_id`, or `mode=real` + `image` (≤ 4 MB) |
 
-This repo is a monorepo, so the simplest full deploy on Vercel is two projects:
+Deployment notes (two Vercel projects, `frontend/` and `backend/`) are in [`docs/deploy.md`](docs/deploy.md). Design notes and the development process are in [`docs/`](docs/) (Thai).
 
-1. `frontend/` as the React app
-2. `backend/` as the FastAPI API
+## Repository map
 
-Frontend project:
-
-1. Import the repo into Vercel.
-2. Set `Root Directory` to `frontend`.
-3. Keep the default build command: `npm run build`.
-4. Keep the output directory: `dist`.
-5. Set `VITE_API_URL` to the backend deployment URL.
-
-Backend project:
-
-1. Create a second Vercel project from the same repo.
-2. Set `Root Directory` to `backend`.
-3. Let Vercel detect FastAPI.
-4. No build command is required; `api/index.py`, `.python-version`, and
-   `vercel.json` are included.
-
-If you are only a contributor, you can still deploy your own Vercel projects as long as your Git account can access the repo. If you want to deploy into someone else’s existing Vercel project, they need to add you to that Vercel team/project first.
-
-## Development (Native)
-
-### Backend
-
-```bash
-cd backend
-python3.12 -m venv .venv
-.venv/bin/pip install -r requirements.txt
-.venv/bin/uvicorn app.main:app --reload   # → http://localhost:8000
+```
+backend/            FastAPI API · ONNX models in backend/app/models/
+frontend/           React + Vite + Tailwind dashboard
+Working Prototype/  Stand-alone prognosis pipeline + demo cases
+scripts/            Builds demo data from data/
+docs/               Proposal, development process, team notes
 ```
 
-Real model mode is self-contained. C1/C2 weights live in
-`backend/app/models/`; `bridge-ai-vision` is not required at runtime.
-The deployment runtime uses ONNX models through OpenCV, without PyTorch.
+## Team
 
-### Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev      # Vite → http://localhost:5173
-```
-
-## API Endpoints
-
-- `GET  /api/health`  - Health check
-- `GET  /api/samples` - รายการเคสตัวอย่าง (Normal / Low / Medium / High)
-- `POST /api/analyze` - วิเคราะห์ X-ray + clinical input → คืน overlay + damage% + risk + growth prediction
-  - Sample: form `mode=sample` + `sample_id`
-  - Real: form `mode=real` + `image` (ไม่เกิน 4 MB) + ฟิลด์ clinical
-
-## Architecture Decisions
-
-See [`ARCHITECTURE.md`](ARCHITECTURE.md) for detailed design decisions and rationale.
+Athiphat Sunsit (tech lead) · Purich Ampawa · and teammates. Built for the **BRIDGE-AI Summit 2026**, Faculty of Medicine, Chulalongkorn University.
